@@ -1,0 +1,65 @@
+import { Redirect } from "react-router-dom";
+import { lazy } from '@loadable/component';
+import { MainLayout, AuthLayout, ErrorsLayout } from 'layouts';
+
+export const routes = [
+  {
+    path: '/',
+    exact: true,
+    component: () => <Redirect to="/dashboard" />
+  },
+  {
+    path: '/auth',
+    component: AuthLayout,
+    routes: [
+      {
+        path: '/auth/login',
+        exact: true,
+        component: lazy(() => import('views/Auth/Login'))
+      },
+      {
+        path: '/auth/register',
+        exact: true,
+        component: lazy(() => import('views/Auth/Register'))
+      },
+      {
+        path: '/auth/forgot-password',
+        exact: true,
+        component: lazy(() => import('views/Auth/ForgotPassword'))
+      },
+      {
+        component: () => <Redirect to="/auth/login" />
+      }
+    ]
+  },
+  {
+    path: '/errors',
+    component: ErrorsLayout,
+    routes: [
+      {
+        path: '/errors/404',
+        exact: true,
+        component: lazy(() => import('views/Errors/Error404'))
+      }
+    ]
+  },
+  {
+    path: '*',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/dashboard',
+        exact: true,
+        component: lazy(() => import('views/Main/Dashboard'))
+      },
+      {
+        path: '/profile',
+        exact: true,
+        component: lazy(() => import('views/Main/Profile'))
+      },
+      {
+        component: () => <Redirect to="/errors/404" />
+      }
+    ]
+  },
+];
