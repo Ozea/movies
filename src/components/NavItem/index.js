@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     textTransform: 'none',
     letterSpacing: 0,
-    width: '100%'
+    width: '100%',
+    borderRadius: 0
   },
   buttonLeaf: {
     padding: '10px 8px',
@@ -80,7 +81,7 @@ const NavItem = ({
     setOpen((prevOpen) => !prevOpen);
   };
 
-  let paddingLeft = 8;
+  let paddingLeft = 15;
 
   if (depth > 0) {
     paddingLeft = 32 + 8 * depth;

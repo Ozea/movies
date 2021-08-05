@@ -1,6 +1,6 @@
 import React from "react";
 // Material core
-import { Drawer, Toolbar, List } from "@material-ui/core";
+import { Divider, Drawer, List, Toolbar } from "@material-ui/core";
 // Styles
 import { makeStyles } from "@material-ui/core";
 // Sidebar config
@@ -22,13 +22,21 @@ const useStyles = makeStyles(theme => ({
   drawerContainer: {
     overflow: 'auto',
   },
+  listItem: {
+    padding: theme.spacing(1)
+  },
+  logo: {
+    textTransform: 'uppercase',
+    fontWeight: 'bolder',
+    fontSize: '22px'
+  }
 }));
 
 export default function Sidebar() {
   const classes = useStyles();
 
   const renderNavItems = ({ items, key, ...rest }) => (
-    <List key={key}>
+    <List key={key} className={classes.listItem}>
       {items.reduce((acc, item) => reduceChildRoutes({ acc, item, ...rest }), [])}
     </List>
   );
@@ -78,7 +86,10 @@ export default function Sidebar() {
       variant="permanent"
       classes={{ paper: classes.drawerPaper }}
     >
-      <Toolbar />
+      <Toolbar><div className={classes.logo}>Logo</div></Toolbar>
+
+      <Divider />
+
       <div className={classes.drawerContainer}>
         {sidebarConfig.map((list, index) => renderNavItems({
           items: list.items,
