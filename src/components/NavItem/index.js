@@ -81,7 +81,7 @@ const NavItem = ({
     setOpen((prevOpen) => !prevOpen);
   };
 
-  let paddingLeft = 15;
+  let paddingLeft = 10;
 
   if (depth > 0) {
     paddingLeft = 32 + 8 * depth;

@@ -1,16 +1,18 @@
 import React from "react";
 // Material core
-import { Divider, Drawer, List, Toolbar } from "@material-ui/core";
+import { Divider, Drawer, IconButton, List, Toolbar } from "@material-ui/core";
+// Icons
+import { ContactSupport } from "@material-ui/icons";
 // Styles
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 // Sidebar config
-import { sidebarConfig } from "./config";
+import { sidebarConfig, drawerWidth } from "./config";
 // Components
-import NavItem from "components/NavItem";
+import { NavItem, GridItem, GridContainer } from "components";
 // Router
 import { matchPath } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
@@ -21,9 +23,14 @@ const useStyles = makeStyles(theme => ({
   },
   drawerContainer: {
     overflow: 'auto',
+    height: '100%',
+    paddingTop: theme.spacing(2)
+  },
+  drawerContent: {
+    height: '100%'
   },
   listItem: {
-    padding: theme.spacing(1)
+    padding: theme.spacing(.5, 1)
   },
   logo: {
     textTransform: 'uppercase',
@@ -33,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const classes = useStyles();
 
   const renderNavItems = ({ items, key, ...rest }) => (
@@ -86,16 +94,31 @@ export default function Sidebar() {
       variant="permanent"
       classes={{ paper: classes.drawerPaper }}
     >
-      <Toolbar><div className={classes.logo}>Logo</div></Toolbar>
+      <Toolbar><div className={classes.logo}>{t('Logo')}</div></Toolbar>
 
       <Divider />
 
       <div className={classes.drawerContainer}>
-        {sidebarConfig.map((list, index) => renderNavItems({
-          items: list.items,
-          pathname: window.location.pathname,
-          key: index
-        }))}
+        <GridContainer className={classes.drawerContent} direction="column" justifyContent="space-between" align="center">
+          <GridItem padding={0}>
+            {sidebarConfig.map((list, index) => renderNavItems({
+              items: list.items,
+              pathname: window.location.pathname,
+              key: index
+            }))}
+          </GridItem>
+
+          <GridItem padding={0}>
+            <List className={classes.listItem}>
+              <NavItem
+                depth={0}
+                href="/support"
+                icon={ContactSupport}
+                title={t('Contact support')}
+              />
+            </List>
+          </GridItem>
+        </GridContainer>
       </div>
     </Drawer>
   );

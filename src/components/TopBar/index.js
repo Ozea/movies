@@ -3,8 +3,9 @@ import React from 'react';
 import { makeStyles, AppBar, Toolbar, Typography, IconButton, InputBase, Badge, alpha } from "@material-ui/core";
 // Icons
 import { Search, Notifications, Mail, AccountCircle, More } from "@material-ui/icons";
-
-const drawerWidth = 240;
+import LanguageSwitcher from 'components/LanguageSwitcher';
+// Utils
+import { drawerWidth } from "components/Sidebar/config";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -115,6 +116,7 @@ export default function TopBar(props) {
           >
             <AccountCircle />
           </IconButton>
+          <LanguageSwitcher />
         </div>
         <div className={classes.sectionMobile}>
           <IconButton

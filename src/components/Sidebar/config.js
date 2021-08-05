@@ -1,7 +1,7 @@
 // Material icons
 import { Dashboard, Person } from "@material-ui/icons";
-
-export const sidebarConfig = [
+const drawerWidth = 240;
+const sidebarConfig = [
   {
     items: [
       {
@@ -28,3 +28,8 @@ export const sidebarConfig = [
     ]
   }
 ];
+
+export {
+  drawerWidth,
+  sidebarConfig
+}
