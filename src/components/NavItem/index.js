@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Button, Collapse, ListItem } from '@material-ui/core';
@@ -95,7 +95,7 @@ const NavItem = ({
     return (
       <ListItem
         {...rest}
-        className={clsx(classes.item, className)}
+        className={classNames(classes.item, className)}
         disableGutters
         key={title}
       >
@@ -126,13 +126,13 @@ const NavItem = ({
   return (
     <ListItem
       {...rest}
-      className={clsx(classes.itemLeaf, className)}
+      className={classNames(classes.itemLeaf, className)}
       disableGutters
       key={title}
     >
       <Button
         activeClassName={classes.active}
-        className={clsx(classes.buttonLeaf, `depth-${depth}`)}
+        className={classNames(classes.buttonLeaf, `depth-${depth}`)}
         component={RouterLink}
         exact
         style={style}
