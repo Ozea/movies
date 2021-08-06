@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import clsx from "clsx";
+import classNames from "classnames";
 
 const styles = {
   grid: {
@@ -20,7 +20,7 @@ export default function GridItem(props) {
   return (
     <Grid
       item {...rest}
-      className={clsx({
+      className={classNames({
         [classes.grid]: props.padding !== 0,
         className
       })}>

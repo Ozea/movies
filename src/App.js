@@ -13,6 +13,9 @@ import { initReactI18next } from "react-i18next";
 import en from './translations/en.json';
 import de from './translations/de.json';
 import i18n from "i18next";
+// Redux
+import { Provider } from "react-redux";
+import { store } from 'reduxToolkit';
 
 i18n
   .use(initReactI18next)
@@ -32,13 +35,15 @@ i18n
 function App() {
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
-        <Router>
-          <RouteBuilder>
-            {renderRoutes(routes)}
-          </RouteBuilder>
-        </Router>
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <RouteBuilder>
+              {renderRoutes(routes)}
+            </RouteBuilder>
+          </Router>
+        </ThemeProvider>
+      </Provider>
     </div>
   );
 }
