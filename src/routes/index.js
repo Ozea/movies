@@ -6,7 +6,7 @@ export const routes = [
   {
     path: '/',
     exact: true,
-    component: () => <Redirect to="/dashboard" />
+    component: () => <Redirect to="/movies" />
   },
   {
     path: '/auth',
@@ -48,14 +48,9 @@ export const routes = [
     component: MainLayout,
     routes: [
       {
-        path: '/dashboard',
+        path: '/movies',
         exact: true,
         component: lazy(() => import('views/Main/Dashboard'))
-      },
-      {
-        path: '/profile',
-        exact: true,
-        component: lazy(() => import('views/Main/Profile'))
       },
       {
         component: () => <Redirect to="/errors/404" />

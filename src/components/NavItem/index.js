@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
   itemLeaf: {
     display: 'flex',
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
+    margin: theme.spacing(.3, 0)
   },
   button: {
     padding: '10px 8px',
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
     letterSpacing: 0,
     width: '100%',
-    borderRadius: 0
+    borderRadius: 0,
   },
   buttonLeaf: {
     padding: '10px 8px',
@@ -35,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: theme.typography.fontWeightRegular,
     '&.depth-0': {
       fontWeight: theme.typography.fontWeightMedium
+    },
+    '&:hover': {
+      background: theme.palette.primary.light
+    },
+    '&:active': {
+      background: theme.palette.primary.main
     }
   },
   icon: {
@@ -42,12 +49,17 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     marginRight: theme.spacing(2),
-    fontSize: '27px'
+    fontSize: '27px',
+    width: '27px'
   },
   expandIcon: {
     marginLeft: 'auto',
     height: 16,
     width: 16
+  },
+  title: {
+    color: 'white',
+    fontSize: '15px',
   },
   label: {
     display: 'flex',
@@ -55,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto'
   },
   active: {
-    color: theme.palette.primary.main,
+    background: theme.palette.primary.main,
     fontWeight: theme.typography.fontWeightMedium,
     '& $icon': {
       color: theme.palette.primary.main
@@ -139,7 +151,7 @@ const NavItem = ({
         to={href}
       >
         {Icon && <Icon className={classes.icon} />}
-        {title}
+        <span className={classes.title}>{title}</span>
         {Label && (
           <span className={classes.label}>
             <Label />

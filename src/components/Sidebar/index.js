@@ -1,8 +1,8 @@
 import React from "react";
 // Material core
-import { Divider, Drawer, IconButton, List, Toolbar } from "@material-ui/core";
+import { Divider, Drawer, List, Toolbar } from "@material-ui/core";
 // Icons
-import { ContactSupport } from "@material-ui/icons";
+import { Info } from "@material-ui/icons";
 // Styles
 import { makeStyles } from "@material-ui/core/styles";
 // Sidebar config
@@ -11,28 +11,43 @@ import { sidebarConfig, drawerWidth } from "./config";
 import { NavItem, GridItem, GridContainer } from "components";
 // Router
 import { matchPath } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)'
   },
   drawerPaper: {
+    border: 'unset',
     width: drawerWidth,
   },
   drawerContainer: {
     overflow: 'auto',
     height: '100%',
+    background: theme.palette.primary.dark,
     paddingTop: theme.spacing(2)
   },
   drawerContent: {
     height: '100%'
   },
   listItem: {
-    padding: theme.spacing(.5, 1)
+    padding: theme.spacing(.5, 1),
+  },
+  toolbar: {
+    background: theme.palette.secondary.dark,
+    justifyContent: 'center'
+  },
+  divider: {
+    width: '90%',
+    margin: theme.spacing(.5, 0),
+    background: theme.palette.secondary.dark
   },
   logo: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: theme.palette.orange,
     textTransform: 'uppercase',
     fontWeight: 'bolder',
     fontSize: '22px'
@@ -40,13 +55,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Sidebar() {
-  const { t } = useTranslation();
   const classes = useStyles();
 
   const renderNavItems = ({ items, key, ...rest }) => (
-    <List key={key} className={classes.listItem}>
-      {items.reduce((acc, item) => reduceChildRoutes({ acc, item, ...rest }), [])}
-    </List>
+    (<div key={key}>
+      <List className={classes.listItem}>
+        {items.reduce((acc, item) => reduceChildRoutes({ acc, item, ...rest }), [])}
+      </List>
+
+      <Divider className={classes.divider} />
+    </div>)
   );
 
   function reduceChildRoutes({ acc, pathname, item, depth = 0 }) {
@@ -94,9 +112,9 @@ export default function Sidebar() {
       variant="permanent"
       classes={{ paper: classes.drawerPaper }}
     >
-      <Toolbar><div className={classes.logo}>{t('Logo')}</div></Toolbar>
-
-      <Divider />
+      <Toolbar className={classes.toolbar}>
+        <div className={classes.logo}>METAFLEX</div>
+      </Toolbar>
 
       <div className={classes.drawerContainer}>
         <GridContainer className={classes.drawerContent} direction="column" justifyContent="space-between" align="center">
@@ -113,8 +131,8 @@ export default function Sidebar() {
               <NavItem
                 depth={0}
                 href="/support"
-                icon={ContactSupport}
-                title={t('Contact support')}
+                icon={Info}
+                title="FAQ"
               />
             </List>
           </GridItem>

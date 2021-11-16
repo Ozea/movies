@@ -9,6 +9,8 @@ import { renderRoutes } from "react-router-config";
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+    height: '100vh',
+    background: theme.palette.secondary.dark
   },
   content: {
     flexGrow: 1,

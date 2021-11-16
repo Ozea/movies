@@ -24,9 +24,10 @@ export default function Dashboard() {
 
   return (
     <div>
-      {t('Dashboard')}!
+      <Typography variant="h3" color="textSecondary">{t('Movies')}!</Typography>
+      <Typography variant="h4" color="textSecondary">{t('Coming soon')}!</Typography>
 
-      <Card variant="outlined">
+      {/* <Card variant="outlined">
         <CardContent>
           <Typography className={classes.title} align="center" color="textSecondary" gutterBottom>
             {t('Counter value')} - {counter.value}
@@ -65,7 +66,7 @@ export default function Dashboard() {
             </GridItem>
           </GridContainer>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }

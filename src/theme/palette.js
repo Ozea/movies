@@ -5,15 +5,15 @@ const white = '#FFFFFF';
 const palette = {
   primary: {
     contrastText: white,
-    dark: colors.indigo[900],
-    main: colors.indigo[500],
-    light: colors.indigo[100]
+    dark: '#252E42',
+    main: '#1f2739',
+    light: '#1d2539b0'
   },
   secondary: {
     contrastText: white,
-    dark: colors.blue[900],
-    main: colors.blue.A700,
-    light: colors.blue.A400
+    dark: '#2F3B52',
+    main: '#1f2739',
+    light: '#1d2539b0'
   },
   error: {
     contrastText: white,
@@ -26,8 +26,9 @@ const palette = {
     secondary: colors.blueGrey[600],
     link: colors.blue[600]
   },
+  orange: "#F7A400",
   link: colors.blue[800],
-  icon: colors.blueGrey[600],
+  icon: '#3A9EFD',
   background: {
     default: '#F4F6F8',
     paper: white
