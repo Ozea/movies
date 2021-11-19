@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 // Styles
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from '@mui/styles';
 // Assets
 import AuthImage from "assets/auth.jpg";
 import { renderRoutes } from "react-router-config";
@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     backgroundImage: `url(${AuthImage})`,
     width: '100%',
-    height: '100vh',
+    height: '100%',
     backgroundSize: 'cover',
     backgroundPosition: 'center'
   }

@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
 // Core
-import { ClickAwayListener, MenuList, Paper, Grow, Popper, makeStyles, MenuItem, Button } from '@material-ui/core';
+import { ClickAwayListener, MenuList, Paper, Grow, Popper, MenuItem, Button } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 // i18n
 import { useTranslation } from 'react-i18next';
 // Utils

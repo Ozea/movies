@@ -1,8 +1,9 @@
 import React from 'react';
 // Core
-import { makeStyles, AppBar, Toolbar, IconButton, InputBase, alpha } from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, InputBase, alpha } from "@mui/material";
+import { makeStyles } from '@mui/styles';
 // Icons
-import { Search, AccountCircle } from "@material-ui/icons";
+import { Search, AccountCircle } from "@mui/icons-material";
 import { ReactComponent as Crown } from 'assets/crown.svg';
 // Utils
 import { drawerWidth } from "components/Sidebar/config";
@@ -11,7 +12,7 @@ import CustomButton from 'components/CustomButton';
 const useStyles = makeStyles(theme => ({
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
+    marginLeft: drawerWidth
   },
   grow: {
     flexGrow: 1,
@@ -33,9 +34,11 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   },
   toolbar: {
-    background: theme.palette.primary.dark
+    background: theme.palette.primary.dark,
+    padding: theme.spacing(0, 5)
   },
   search: {
+    display: 'flex',
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -49,7 +52,6 @@ const useStyles = makeStyles(theme => ({
   searchIcon: {
     padding: theme.spacing(),
     height: '100%',
-    position: 'absolute',
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',

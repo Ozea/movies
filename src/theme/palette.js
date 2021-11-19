@@ -1,4 +1,4 @@
-import { colors } from '@material-ui/core';
+import { colors } from '@mui/material';
 
 const white = '#FFFFFF';
 
@@ -22,11 +22,13 @@ const palette = {
     light: colors.red[400]
   },
   text: {
-    primary: colors.blueGrey[900],
-    secondary: colors.blueGrey[600],
+    primary: white,
+    secondary: '#F7A400',
     link: colors.blue[600]
   },
   orange: "#F7A400",
+  movieMask: 'linear-gradient(to right, #2F3B52CF, #2F3B52A1, #8080807d)',
+  shadow: '2px 4px 15px -7px #000000',
   link: colors.blue[800],
   icon: '#3A9EFD',
   background: {

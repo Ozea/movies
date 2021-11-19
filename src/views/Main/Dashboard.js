@@ -1,7 +1,8 @@
-import React from 'react';
-import { Button, Card, CardContent, makeStyles, Typography } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { Button, Card, CardContent, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 // Icons
-import { Add, Remove } from '@material-ui/icons';
+import { Add, Remove } from '@mui/icons-material';
 // Components
 import { GridItem, GridContainer } from 'components';
 // i18n
@@ -9,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 // Redux
 import { increment, decrement, incrementByValue } from 'reduxToolkit/slices/counter';
+import { getTrendingMovies } from 'services/api';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -21,6 +23,14 @@ export default function Dashboard() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const counter = useSelector(state => state.counter);
+
+  useEffect(() => {
+    getTrendingMovies()
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   return (
     <div>

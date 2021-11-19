@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { Button, Collapse, ListItem } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { makeStyles } from '@mui/styles';
+import { Button, Collapse, ListItem } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 const useStyles = makeStyles((theme) => ({
   item: {
