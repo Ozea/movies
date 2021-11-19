@@ -50,7 +50,7 @@ export const routes = [
       {
         path: '/movies',
         exact: true,
-        component: lazy(() => import('views/Main/Dashboard'))
+        component: lazy(() => import('views/Main/Movies'))
       },
       {
         component: () => <Redirect to="/errors/404" />

@@ -5,7 +5,8 @@ import RouteBuilder from "components/Router/RouteBuilder";
 import { renderRoutes } from "react-router-config";
 import { routes } from "routes";
 // MUi theme
-import { ThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@mui/material";
+import { StyledEngineProvider } from "@mui/material/styles";
 import { theme } from "theme";
 // i18n
 import { DEFAULT_LANGUAGE, loadLanguage } from './utils/language';
@@ -37,11 +38,13 @@ function App() {
     <div className="App">
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <Router>
-            <RouteBuilder>
-              {renderRoutes(routes)}
-            </RouteBuilder>
-          </Router>
+          <StyledEngineProvider injectFirst>
+            <Router>
+              <RouteBuilder>
+                {renderRoutes(routes)}
+              </RouteBuilder>
+            </Router>
+          </StyledEngineProvider>
         </ThemeProvider>
       </Provider>
     </div>

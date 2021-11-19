@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 // Core material
-import { CssBaseline, makeStyles, Toolbar } from "@material-ui/core";
+import { CssBaseline, LinearProgress, Toolbar } from "@mui/material";
+import { makeStyles } from '@mui/styles';
 // Components
 import { Sidebar, TopBar } from "components";
 // Router
@@ -9,7 +10,7 @@ import { renderRoutes } from "react-router-config";
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    height: '100vh',
+    height: '100%',
     background: theme.palette.secondary.dark
   },
   content: {
@@ -30,7 +31,7 @@ export default function MainLayout({ route }) {
 
       <main className={classes.content}>
         <Toolbar />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LinearProgress />}>
           {renderRoutes(route.routes)}
         </Suspense>
       </main>

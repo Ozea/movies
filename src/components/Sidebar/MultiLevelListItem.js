@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // Material core
-import { ListItem, ListItemIcon, Collapse, List, MenuItem } from "@material-ui/core";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { ListItem, ListItemIcon, Collapse, List, MenuItem } from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 // Router
 import { Link } from "react-router-dom";
 

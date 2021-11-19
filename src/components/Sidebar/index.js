@@ -1,10 +1,10 @@
 import React from "react";
 // Material core
-import { Divider, Drawer, List, Toolbar } from "@material-ui/core";
+import { Divider, Drawer, List, Toolbar } from "@mui/material";
 // Icons
-import { Info } from "@material-ui/icons";
+import { Info } from "@mui/icons-material";
 // Styles
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@mui/styles';
 // Sidebar config
 import { sidebarConfig, drawerWidth } from "./config";
 // Components
@@ -41,7 +41,8 @@ const useStyles = makeStyles(theme => ({
   divider: {
     width: '90%',
     margin: theme.spacing(.5, 0),
-    background: theme.palette.secondary.dark
+    background: theme.palette.secondary.dark,
+    borderColor: theme.palette.secondary.dark
   },
   logo: {
     display: 'flex',
@@ -49,6 +50,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     color: theme.palette.orange,
     textTransform: 'uppercase',
+    letterSpacing: '1px',
     fontWeight: 'bolder',
     fontSize: '22px'
   }
