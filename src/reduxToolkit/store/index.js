@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 // Slices
-import { counterReducer } from '../slices';
+import { counterReducer, popularMoviesReducer } from '../slices';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer
+    counter: counterReducer,
+    popularMovies: popularMoviesReducer
   }
 });

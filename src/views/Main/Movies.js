@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
-import { Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Backdrop, Fade, Modal, Skeleton, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 // Redux
 import { getTrendingMovies } from 'services/api';
 import { GridContainer, GridItem } from 'components';
+import { setPopularMovies } from 'reduxToolkit/slices/popularMovies';
+import { useDispatch, useSelector } from 'react-redux';
 // Images
-import Dune from 'assets/dune.jpg';
 import Action from 'assets/action.jpg';
 import Bond from 'assets/bond.jpg';
 import Ethernals from 'assets/ethernals.jpg';
@@ -20,6 +21,7 @@ import { genres } from 'utils/movieGenres';
 // Helmet
 import { Helmet } from 'react-helmet';
 import Carousel from 'react-material-ui-carousel';
+import { originalImageBaseUrl } from 'services/api';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -36,11 +38,25 @@ const useStyles = makeStyles((theme) => ({
   },
   catergoryName: {
     fontWeight: 'bold'
+  },
+  trailerWrapper: {
+    height: '75%',
+    right: '50%',
+    top: '50%',
+    transform: 'translate(50%,-50%)',
+    position: 'fixed',
+    width: '75%',
+    zIndex: '9999'
   }
 }));
 
 export default function Movies() {
   const classes = useStyles();
+  const popularMovies = useSelector(state => state.popularMovies);
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [trailerId, setTrailerId] = useState(null);
   const firstMovieGenres = [
     { id: 35, name: 'Comedy', grid: 3, imgUrl: Action },
     { id: 18, name: 'Drama', grid: 3, imgUrl: Ethernals },
@@ -53,80 +69,132 @@ export default function Movies() {
   ];
 
   useEffect(() => {
+    setLoading(true);
+
     getTrendingMovies()
       .then(result => {
-        const moviesOfTheWeek = result.data.results.slice(0, 10);
-        const movieGenreIds = moviesOfTheWeek[0].genre_ids;
-        const movieGenres = movieGenreIds.map(genre => genreLookUp(genre));
-        console.log(movieGenres);
+        const data = transformTrendingMovies(result.data.results.slice(0, 10));
+        dispatch(setPopularMovies(data));
+        setLoading(false);
       })
       .catch(err => console.error(err));
   }, []);
+
+  const transformTrendingMovies = movies => {
+    return movies.map(movie => {
+      const movieGenres = movie.genre_ids.map(genre => genreLookUp(genre));
+      movie['genres'] = movieGenres;
+      return movie;
+    });
+  }
 
   const genreLookUp = genreId => {
     return genres.find(g => g.id === genreId);
   }
 
-  var items = [
-    {
-      name: "Dune",
-      description: "Probably the most random thing you have ever seen!",
-      img: Dune
-    },
-    {
-      name: "Venom",
-      description: "Hello World!",
-      img: Venom
-    },
-    {
-      name: "Finch",
-      description: "Hello World for Finch!",
-      img: Finch
-    }
-  ];
+  const formatMovieUrl = uri => {
+    return `${originalImageBaseUrl}${uri}`;
+  }
+
+  const handleCloseTrailer = () => {
+    setOpen(false);
+  }
+
+  const handleOpenTrailer = trrailerId => {
+    setTrailerId(trrailerId);
+    setOpen(true);
+  }
 
   return (
     <>
       <Helmet><title>Movies</title></Helmet>
-      <GridContainer alignItems="center" justifyContent="center">
-        <GridItem style={{ width: '100%' }}>
-          <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Popular now</Typography>
-          <Carousel>
-            {items.map((item, i) =>
-              <ShadowedCard imageUrl={item.img} containerClassname={{ height: '450px', marginTop: '1rem' }} key={i}>
-                <MovieDetails
-                  title={item.name}
-                  genres={["Action", "Adventure", "Drama"]}
-                  description={item.description} />
-              </ShadowedCard>
-            )}
-          </Carousel>
-        </GridItem>
-
-        <GridContainer style={{ marginTop: '1.5rem' }}>
-          <GridItem><Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Genres</Typography></GridItem>
-
-          <GridContainer style={{ marginTop: '1.5rem' }}>
-            {firstMovieGenres.map(item => (
-              <GridItem xs={item.grid} key={item.id}>
-                <ShadowedCard imageUrl={item.imgUrl}>
-                  <div className={classes.cardText}><Typography variant="h3" color="textPrimary">{item.name}</Typography></div>
-                </ShadowedCard>
+      {
+        loading
+          ? (<>
+            <GridContainer alignItems="center" justifyContent="center">
+              <GridItem style={{ width: '100%' }}>
+                <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Popular now</Typography>
+                <GridItem style={{ margin: '1rem 0 0 0', padding: '0' }}><Skeleton height={450} style={{ transform: 'unset' }} /></GridItem>
               </GridItem>
-            ))}
-          </GridContainer>
 
-          <GridContainer style={{ marginTop: '1.5rem' }}>
-            {secondMovieGenres.map(item => (
-              <GridItem xs={item.grid} key={item.id}>
-                <ShadowedCard imageUrl={item.imgUrl}>
-                  <div className={classes.cardText}><Typography variant="h3" color="textPrimary">{item.name}</Typography></div>
-                </ShadowedCard>
+              <GridContainer style={{ marginTop: '1.5rem' }}>
+                <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Genres</Typography>
+
+                <GridContainer style={{ marginTop: '1.5rem' }}>
+                  <GridItem xs={3}><Skeleton height={250} style={{ transform: 'unset' }} /></GridItem>
+                  <GridItem xs={3}><Skeleton height={250} style={{ transform: 'unset' }} /></GridItem>
+                  <GridItem xs={6}><Skeleton height={250} style={{ transform: 'unset' }} /></GridItem>
+                </GridContainer>
+
+                <GridContainer style={{ marginTop: '1.5rem' }}>
+                  <GridItem xs={6}><Skeleton height={250} style={{ transform: 'unset' }} /></GridItem>
+                  <GridItem xs={3}><Skeleton height={250} style={{ transform: 'unset' }} /></GridItem>
+                  <GridItem xs={3}><Skeleton height={250} style={{ transform: 'unset' }} /></GridItem>
+                </GridContainer>
+              </GridContainer>
+            </GridContainer>
+          </>)
+          : (
+            <GridContainer alignItems="center" justifyContent="center">
+              <GridItem style={{ width: '100%' }}>
+                <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Popular now</Typography>
+                <Carousel>
+                  {popularMovies.movies.map(movie =>
+                    <ShadowedCard imageUrl={formatMovieUrl(movie.backdrop_path)} containerClassname={{ height: '450px', marginTop: '1rem' }} key={movie.id}>
+                      <MovieDetails data={movie} openTrailer={handleOpenTrailer} />
+                    </ShadowedCard>
+                  )}
+                </Carousel>
               </GridItem>
-            ))}
-          </GridContainer>
-        </GridContainer>
-      </GridContainer>
+
+              <GridContainer style={{ marginTop: '1.5rem' }}>
+                <GridItem><Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Genres</Typography></GridItem>
+
+                <GridContainer style={{ marginTop: '1.5rem' }}>
+                  {firstMovieGenres.map(item => (
+                    <GridItem xs={item.grid} key={item.id}>
+                      <ShadowedCard imageUrl={item.imgUrl}>
+                        <div className={classes.cardText}><Typography variant="h3" color="textPrimary">{item.name}</Typography></div>
+                      </ShadowedCard>
+                    </GridItem>
+                  ))}
+                </GridContainer>
+
+                <GridContainer style={{ marginTop: '1.5rem' }}>
+                  {secondMovieGenres.map(item => (
+                    <GridItem xs={item.grid} key={item.id}>
+                      <ShadowedCard imageUrl={item.imgUrl}>
+                        <div className={classes.cardText}><Typography variant="h3" color="textPrimary">{item.name}</Typography></div>
+                      </ShadowedCard>
+                    </GridItem>
+                  ))}
+                </GridContainer>
+
+                <Modal
+                  aria-labelledby="transition-modal-title"
+                  aria-describedby="transition-modal-description"
+                  open={open}
+                  onClose={handleCloseTrailer}
+                  closeAfterTransition
+                  BackdropComponent={Backdrop}
+                  BackdropProps={{ timeout: 300 }}
+                >
+                  <Fade in={open}>
+                    <div className={classes.trailerWrapper}>
+                      <iframe
+                        src={`https://www.youtube.com/embed/${trailerId}`}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        style={{ width: '100%', height: '100%' }}></iframe>
+                    </div>
+                  </Fade>
+                </Modal>
+              </GridContainer>
+            </GridContainer>
+          )
+      }
     </>
   );
 }
