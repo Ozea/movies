@@ -27,7 +27,6 @@ export default function Dashboard() {
   useEffect(() => {
     getTrendingMovies()
       .then(result => {
-        console.log(result);
       })
       .catch(err => console.error(err));
   }, []);

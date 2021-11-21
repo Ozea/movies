@@ -31,7 +31,7 @@ export default function MainLayout({ route }) {
 
       <main className={classes.content}>
         <Toolbar />
-        <Suspense fallback={<LinearProgress />}>
+        <Suspense fallback={<LinearProgress color="error" />}>
           {renderRoutes(route.routes)}
         </Suspense>
       </main>
