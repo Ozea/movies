@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   listingWrapper: {
     padding: '1rem',
     backgroundColor: theme.palette.secondary.dark,
-    width: '75%',
+    width: '85%',
     margin: '-7.5rem 1rem 1rem',
     zIndex: '15',
     boxShadow: theme.palette.shadow,
@@ -31,16 +31,40 @@ const useStyles = makeStyles(theme => ({
   },
   movieDetailsWrapper: {
     position: 'unset'
+  },
+  mainMovieContainer: {
+    position: 'absolute',
+    width: '75%',
+    height: '75%'
+  },
+  mainShadow: {
+    zIndex: 99,
+    borderTop: '1px solid #34415b',
+    boxShadow: '0px 1px 20px 4px #202839'
   }
 }));
 
 const MoviesByGenre = props => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
+  const [imageParallax, setImageParallax] = useState({ blur: 0, axisY: 0 });
   const { moviesByGenre, genres } = useSelector(state => state.movies);
   const dispatch = useDispatch();
   const { id } = useParams();
   const movies = moviesByGenre[id] || [];
+
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler);
+
+    return () => document.removeEventListener("scroll", scrollHandler);
+  }, []);
+
+  const scrollHandler = () => {
+    const scrollTop = document.documentElement.scrollTop;
+    if (scrollTop < 500) {
+      return setImageParallax({ blur: scrollTop / 500 * 12, axisY: scrollTop / 500 * 30 });
+    }
+  };
 
   useEffect(() => {
     if (!moviesByGenre[id]) {
@@ -96,42 +120,53 @@ const MoviesByGenre = props => {
           </GridContainer>
           : (<>
             <GridItem style={{ width: '100%' }} padding={0}>
-              <ShadowedCard imageUrl={formatMovieUrl(movies[0].backdrop_path)} containerClassname={{ height: '600px', marginTop: '1rem', boxShadow: 'unset' }}>
-                <GridContainer style={{ position: 'absolute', width: '75%' }} direction="column" justifyContent="start">
-                  <GridItem><Typography variant="h1" color="textPrimary" align="left">{`Top ${genreLookUp()} movies`}</Typography></GridItem>
-                  <GridItem><MovieDetails data={movies[0]} openTrailer={handleOpenTrailer} wrapperClassName={classes.movieDetailsWrapper} /></GridItem>
+              <ShadowedCard
+                imageUrl={formatMovieUrl(movies[0].backdrop_path)}
+                imageStyles={{ transform: `scale(1.1) translateY(${imageParallax.axisY}px)`, filter: `blur(${imageParallax.blur}px)` }}
+                containerClassname={{ height: '600px', marginTop: '1rem', boxShadow: 'unset' }}>
+                <GridContainer className={classes.mainMovieContainer} direction="column" justifyContent="space-evenly">
+                  <GridItem>
+                    <Typography variant="h1" color="textPrimary" align="left" style={{ fontSize: '50px' }}>
+                      {`Top ${genreLookUp()} movies`}
+                    </Typography>
+                  </GridItem>
+                  <GridItem style={{ marginBottom: '2rem' }}>
+                    <MovieDetails data={movies[0]} openTrailer={handleOpenTrailer} wrapperClassName={classes.movieDetailsWrapper} />
+                  </GridItem>
                 </GridContainer>
               </ShadowedCard>
             </GridItem>
 
-            <GridContainer direction="column" justifyContent="center" alignItems="center" className={classes.listingWrapper}>
-              <List sx={{ width: '100%', maxWidth: '75%' }}>
-                {movies.map((item, index) => (
-                  <React.Fragment key={index}>
-                    <ListItem alignItems="flex-start">
-                      <ListItemAvatar>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary="Brunch this weekend?"
-                        secondary={
-                          <>
-                            <Typography
-                              sx={{ display: 'inline' }}
-                              component="span"
-                              variant="body2"
-                              color="textPrimary"
-                            >
-                              Ali Connors
-                            </Typography>
-                            {" — I'll be in your neighborhood doing errands this…"}
-                          </>
-                        }
-                      />
-                    </ListItem>
-                    <Divider variant="inset" component="li" /></React.Fragment>
-                ))}
-              </List>
+            <GridContainer direction="column" justifyContent="center" alignItems="center" className={classes.mainShadow}>
+              <GridContainer direction="column" justifyContent="center" alignItems="center" className={classes.listingWrapper}>
+                <List sx={{ width: '100%', maxWidth: '90%' }}>
+                  {movies.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary="Brunch this weekend?"
+                          secondary={
+                            <>
+                              <Typography
+                                sx={{ display: 'inline' }}
+                                component="span"
+                                variant="body2"
+                                color="textPrimary"
+                              >
+                                Ali Connors
+                              </Typography>
+                              {" — I'll be in your neighborhood doing errands this…"}
+                            </>
+                          }
+                        />
+                      </ListItem>
+                      <Divider variant="inset" component="li" /></React.Fragment>
+                  ))}
+                </List>
+              </GridContainer>
             </GridContainer>
           </>)
         }

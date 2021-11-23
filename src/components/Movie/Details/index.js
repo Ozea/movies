@@ -1,5 +1,5 @@
-import React from 'react';
-import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { List, ListItem, ListItemText, Skeleton, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { PlayArrow } from '@mui/icons-material';
 import { ReactComponent as ReadMore } from 'assets/read-more.svg';
@@ -8,6 +8,7 @@ import CustomButton from 'components/CustomButton';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: '17px',
     fontWeight: 'bolder',
     textTransform: 'uppercase',
+    marginBottom: '5px'
   },
   list: {
     padding: '0',
@@ -70,9 +72,24 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const MovieDetails = ({ data: { title, overview, genres = [], vote_average, release_date, id }, ...props }) => {
+const MovieDetails = ({ data: { title, overview, genre_ids: movieGenres = [], vote_average, release_date, ...movie }, ...props }) => {
+  const { genres } = useSelector(state => state.movies);
   const description = overview.replace(/.$/, "");
   const classes = useStyles();
+
+  const lookupGenres = () => {
+    if (genres.length) {
+      return movieGenres.map(genre => {
+        const movieGenre = genres.find(item => genre === item.id);
+
+        return (<Link className={classes.genre} key={movieGenre.id} to={`/discover/genre/${movieGenre.id}`}>
+          <Typography variant="caption" color="white" className={classes.genreText}>{movieGenre.name}</Typography>
+        </Link>);
+      });
+    } else {
+      return Array.from(Array(movieGenres.length)).map(() => <Skeleton width={50} height={30} />);
+    }
+  }
 
   return (
     <div className={classNames(classes.wrapper, props.wrapperClassName)}>
@@ -87,9 +104,7 @@ const MovieDetails = ({ data: { title, overview, genres = [], vote_average, rele
         </List>
       </GridContainer>
       <GridContainer style={{ marginTop: '.25rem' }}>
-        {genres.map(genre => <Link className={classes.genre} key={genre.id} to={`/discover/genre/${genre.id}`}>
-          <Typography variant="caption" color="white" className={classes.genreText}>{genre.name}</Typography>
-        </Link>)}
+        {lookupGenres()}
       </GridContainer>
       <GridContainer style={{ marginTop: '1rem' }}>
         <CustomButton title="Play" icon={PlayArrow} buttonClassName={classes.button} />

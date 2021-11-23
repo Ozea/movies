@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ShadowedCard = ({ shadowClassName, imageClassName, imageUrl, containerClassname, children, scaleImageOnHover = false, ...props }) => {
+const ShadowedCard = ({ shadowClassName, imageClassName, imageUrl, containerClassname, children, scaleImageOnHover = false, imageStyles, ...props }) => {
   const classes = useStyles();
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -38,14 +38,14 @@ const ShadowedCard = ({ shadowClassName, imageClassName, imageUrl, containerClas
     borderRadius: '5px',
     backgroundColor: theme.palette.primary.dark,
     ...containerClassname,
-    '&:hover > div:nth-of-type(1)': {
-      transform: scaleImageOnHover ? 'scale(1.07)' : 'unset'
-    }
+    '&:hover > div:nth-of-type(1)': scaleImageOnHover
+      ? { transform: 'scale(1.07)' }
+      : {}
   }));
 
   return (
     <Item style={{ marginTop: '0' }}>
-      <div className={classNames(classes.image, imageClassName)} style={{ backgroundImage: `url(${imageUrl})` }}></div>
+      <div className={classNames(classes.image, imageClassName)} style={{ backgroundImage: `url(${imageUrl})`, ...imageStyles }}></div>
       <div className={classNames(classes.shadow, shadowClassName)}></div>
       {children}
     </Item>

@@ -79,25 +79,12 @@ export default function Movies() {
 
       getTrendingMovies()
         .then(result => {
-          const data = transformTrendingMovies(result.data.results.slice(0, 15));
-          dispatch(setPopularMovies(data));
+          dispatch(setPopularMovies(result.data.results.slice(0, 15)));
           setLoading(false);
         })
         .catch(err => console.error(err));
     }
   }, [popularMovies]);
-
-  const transformTrendingMovies = movies => {
-    return movies.map(movie => {
-      const movieGenres = movie.genre_ids.map(genre => genreLookUp(genre));
-      movie['genres'] = movieGenres;
-      return movie;
-    });
-  }
-
-  const genreLookUp = genreId => {
-    return genres.find(g => g.id === genreId);
-  }
 
   const formatMovieUrl = uri => {
     return `${originalImageBaseUrl}${uri}`;
