@@ -53,6 +53,11 @@ export const routes = [
         component: lazy(() => import('views/Main/Movies'))
       },
       {
+        path: '/discover/genre/:id',
+        exact: true,
+        component: lazy(() => import('views/Main/MoviesByGenre'))
+      },
+      {
         component: () => <Redirect to="/errors/404" />
       }
     ]

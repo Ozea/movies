@@ -22,3 +22,25 @@ export const getMovieDetails = id => {
     }
   });
 }
+
+export const getMovieGenres = () => {
+  return instance.get('/genre/movie/list', {
+    params: {
+      language: 'en-US'
+    }
+  });
+}
+
+export const getMoviesByGenre = genreId => {
+  return instance.get(`/discover/movie`, {
+    params: {
+      language: 'en-US',
+      sort_by: 'popularity.desc',
+      include_adult: 'false',
+      include_video: 'false',
+      page: '1',
+      with_genres: genreId,
+      with_watch_monetization_types: 'flatrate'
+    }
+  });
+}

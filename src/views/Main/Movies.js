@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles';
 // Redux
 import { getTrendingMovies } from 'services/api';
 import { GridContainer, GridItem } from 'components';
-import { setPopularMovies } from 'reduxToolkit/slices/popularMovies';
+import { setPopularMovies } from 'reduxToolkit/slices/movies';
 import { useDispatch, useSelector } from 'react-redux';
 // Images
 import Action from 'assets/action.jpg';
@@ -22,10 +22,14 @@ import { genres } from 'utils/movieGenres';
 import { Helmet } from 'react-helmet';
 import Carousel from 'react-material-ui-carousel';
 import { originalImageBaseUrl } from 'services/api';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1)
+  },
+  content: {
+    padding: theme.spacing(3),
   },
   cardText: {
     position: 'absolute',
@@ -37,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   catergoryName: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginBottom: '1rem'
   },
   trailerWrapper: {
     height: '75%',
@@ -52,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Movies() {
   const classes = useStyles();
-  const popularMovies = useSelector(state => state.popularMovies);
+  const { popularMovies } = useSelector(state => state.movies);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,16 +74,18 @@ export default function Movies() {
   ];
 
   useEffect(() => {
-    setLoading(true);
+    if (!popularMovies.length) {
+      setLoading(true);
 
-    getTrendingMovies()
-      .then(result => {
-        const data = transformTrendingMovies(result.data.results.slice(0, 10));
-        dispatch(setPopularMovies(data));
-        setLoading(false);
-      })
-      .catch(err => console.error(err));
-  }, []);
+      getTrendingMovies()
+        .then(result => {
+          const data = transformTrendingMovies(result.data.results.slice(0, 15));
+          dispatch(setPopularMovies(data));
+          setLoading(false);
+        })
+        .catch(err => console.error(err));
+    }
+  }, [popularMovies]);
 
   const transformTrendingMovies = movies => {
     return movies.map(movie => {
@@ -106,7 +113,7 @@ export default function Movies() {
   }
 
   return (
-    <>
+    <div className={classes.content}>
       <Helmet><title>Movies</title></Helmet>
       {
         loading
@@ -139,7 +146,7 @@ export default function Movies() {
               <GridItem style={{ width: '100%' }}>
                 <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Popular now</Typography>
                 <Carousel>
-                  {popularMovies.movies.map(movie =>
+                  {popularMovies.map(movie =>
                     <ShadowedCard imageUrl={formatMovieUrl(movie.backdrop_path)} containerClassname={{ height: '450px', marginTop: '1rem' }} key={movie.id}>
                       <MovieDetails data={movie} openTrailer={handleOpenTrailer} />
                     </ShadowedCard>
@@ -153,9 +160,11 @@ export default function Movies() {
                 <GridContainer style={{ marginTop: '1.5rem' }}>
                   {firstMovieGenres.map(item => (
                     <GridItem xs={item.grid} key={item.id}>
-                      <ShadowedCard imageUrl={item.imgUrl}>
-                        <div className={classes.cardText}><Typography variant="h3" color="textPrimary">{item.name}</Typography></div>
-                      </ShadowedCard>
+                      <Link to={`/discover/genre/${item.id}`}>
+                        <ShadowedCard imageUrl={item.imgUrl} scaleImageOnHover>
+                          <div className={classes.cardText}><Typography variant="h3" color="textPrimary">{item.name}</Typography></div>
+                        </ShadowedCard>
+                      </Link>
                     </GridItem>
                   ))}
                 </GridContainer>
@@ -163,9 +172,11 @@ export default function Movies() {
                 <GridContainer style={{ marginTop: '1.5rem' }}>
                   {secondMovieGenres.map(item => (
                     <GridItem xs={item.grid} key={item.id}>
-                      <ShadowedCard imageUrl={item.imgUrl}>
-                        <div className={classes.cardText}><Typography variant="h3" color="textPrimary">{item.name}</Typography></div>
-                      </ShadowedCard>
+                      <Link to={`/discover/genre/${item.id}`}>
+                        <ShadowedCard imageUrl={item.imgUrl} scaleImageOnHover>
+                          <div className={classes.cardText}><Typography variant="h3" color="textPrimary">{item.name}</Typography></div>
+                        </ShadowedCard>
+                      </Link>
                     </GridItem>
                   ))}
                 </GridContainer>
@@ -195,6 +206,6 @@ export default function Movies() {
             </GridContainer>
           )
       }
-    </>
+    </div>
   );
 }
