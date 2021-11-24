@@ -194,7 +194,7 @@ const MoviesByGenre = props => {
                       {`Top ${genreLookUp()} movies`}
                     </Typography>
                   </GridItem>
-                  <GridItem style={{ marginBottom: '2rem' }}>
+                  <GridItem style={{ marginBottom: '.5rem' }}>
                     <MovieDetails data={randomMovie} wrapperClassName={classes.movieDetailsWrapper} />
                   </GridItem>
                 </GridContainer>

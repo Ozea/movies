@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     width: '75%',
     zIndex: '9999'
+  },
+  detailsWrapper: {
+    bottom: '2rem',
+    left: '4.5rem'
   }
 }));
 
@@ -133,7 +137,7 @@ export default function Movies() {
                 <Carousel>
                   {popularMovies.map(movie =>
                     <ShadowedCard imageUrl={formatMovieUrl(movie.backdrop_path)} containerClassname={{ height: '450px', marginTop: '1rem' }} key={movie.id}>
-                      <MovieDetails data={movie} openTrailer={handleOpenTrailer} />
+                      <MovieDetails data={movie} openTrailer={handleOpenTrailer} wrapperClassName={classes.detailsWrapper} />
                     </ShadowedCard>
                   )}
                 </Carousel>
