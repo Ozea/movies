@@ -38,10 +38,7 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: theme.typography.fontWeightMedium
     },
     '&:hover': {
-      background: theme.palette.primary.light
-    },
-    '&:active': {
-      background: theme.palette.primary.main
+      background: theme.palette.secondary.dark
     }
   },
   icon: {
@@ -67,10 +64,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto'
   },
   active: {
-    background: theme.palette.primary.main,
+    background: theme.palette.secondary.dark,
     fontWeight: theme.typography.fontWeightMedium,
     '& $icon': {
-      color: theme.palette.primary.main
+      color: theme.palette.secondary.dark
     }
   }
 }));

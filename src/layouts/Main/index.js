@@ -1,11 +1,15 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 // Core material
-import { CssBaseline, LinearProgress, Toolbar } from "@mui/material";
+import { CssBaseline, IconButton, LinearProgress, Toolbar } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 // Components
 import { Sidebar, TopBar } from "components";
 // Router
 import { renderRoutes } from "react-router-config";
+import { getMovieGenres } from "services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { setMovieGenres } from "reduxToolkit/slices/movies";
+import { ArrowUpward } from "@mui/icons-material";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,12 +19,40 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
   },
+  scrollTop: {
+    position: 'fixed',
+    right: '30px',
+    bottom: '15px',
+    zIndex: 200,
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: '#252E42',
+      '& svg': {
+        color: 'white'
+      }
+    }
+  }
 }));
 
 export default function MainLayout({ route }) {
   const classes = useStyles();
+  const { genres } = useSelector(state => state.movies);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!Object.values(genres).length) {
+      getMovieGenres()
+        .then(res => {
+          dispatch(setMovieGenres(res.data.genres));
+        })
+        .catch(err => console.error(err));
+    }
+  }, [genres]);
+
+  const scrollToTopHandler = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   return (
     <div className={classes.root}>
@@ -31,9 +63,12 @@ export default function MainLayout({ route }) {
 
       <main className={classes.content}>
         <Toolbar />
-        <Suspense fallback={<LinearProgress color="error" />}>
+        <Suspense fallback={<LinearProgress />}>
           {renderRoutes(route.routes)}
         </Suspense>
+        <IconButton color="primary" aria-label="scroll to top" className={classes.scrollTop} onClick={scrollToTopHandler}>
+          <ArrowUpward />
+        </IconButton>
       </main>
     </div>
   );
