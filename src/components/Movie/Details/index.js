@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '9px',
     lineHeight: '17px',
     fontWeight: 'bolder',
+    color: theme.palette.primary.dark,
     textTransform: 'uppercase'
   },
   list: {
@@ -56,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
   bullet: {
     width: '8px',
     height: '8px',
-    background: '#3a9efd',
+    // background: '#3a9efd',
+    background: theme.palette.icon,
     marginRight: '10px',
     borderRadius: '50%',
   },

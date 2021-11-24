@@ -151,7 +151,7 @@ const MoviesByGenre = props => {
   }
 
   const renderDiscoveredMovies = () => {
-    if (!movies.length && !Object.values(genres).length ) return;
+    if (!movies.length && !Object.values(genres).length) return;
 
     const data = [...movies];
 
@@ -215,7 +215,9 @@ const MoviesByGenre = props => {
                     buttonClassName={classes.loadMoreButton} />
                 </GridItem>
 
-                <GridItem marginTop={2} style={{ width: '90%' }}>{loadingMore && <LinearProgress />}</GridItem>
+                <GridItem marginTop={2} style={{ width: '90%' }}>
+                  {loadingMore && Array.from(Array(5)).map((_, i) => <Skeleton height={30} key={i} />)}
+                </GridItem>
               </GridContainer>
             </GridContainer>
           </>)

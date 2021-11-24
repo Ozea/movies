@@ -37,16 +37,18 @@ const useStyles = makeStyles(theme => ({
     lineHeight: '17px',
     fontWeight: 'bolder',
     textDecoration: 'none',
+    color: theme.palette.primary.dark,
     textTransform: 'uppercase'
   },
   listItem: {
     overflow: 'hidden',
     width: '100%',
-    backgroundColor: '#252E42',
+    // backgroundColor: '#252E42',
+    backgroundColor: theme.palette.primary.dark,
     margin: theme.spacing(1, 0, 2.5),
     padding: '0',
     borderRadius: '10px 0 0 10px',
-    boxShadow: '2px 4px 10px 3px #202839'
+    boxShadow: `2px 4px 10px 1px ${theme.palette.primary.dark}`
   },
   clickableCard: {
     margin: 'auto',
@@ -106,11 +108,11 @@ const ListIemCard = ({ data }) => {
               <GridItem><Typography variant="h2" color="textSecondary" letterSpacing={1} lineHeight='25px' paddingBottom={2}>{data.title}</Typography></GridItem>
               <GridItem marginBottom={2}>
                 <Typography variant="subtitle" paddingBottom={2} fontSize={15}>
-                  <i>“{data.overview.length > 300 ? `${data.overview.substring(0, 300)}...` : data.overview}”</i>
+                  <i>“{data.overview.length > 250 ? `${data.overview.substring(0, 250)}...` : data.overview}”</i>
                 </Typography>
               </GridItem>
               <GridItem flexWrap="wrap">
-                {Object.values(genres).length && data.genre_ids.map(genreId => {
+                {Object.values(genres).length && data.genre_ids.slice(0, 5).map(genreId => {
                   const genre = genres[genreId];
                   return (<Link className={classes.genre} key={genre.id} to={`/discover/genre/${genre.id}`}>
                     <Typography variant="caption" color="white" className={classes.genreText}>{genre.name}</Typography>
