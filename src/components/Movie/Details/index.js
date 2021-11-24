@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { List, ListItem, ListItemText, Skeleton, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { PlayArrow } from '@mui/icons-material';
@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 2),
     borderRadius: '7px',
     background: theme.palette.icon,
-    textDecoration: 'none'
+    textDecoration: 'none',
+    marginBottom: '5px'
   },
   genreText: {
     fontSize: '9px',
     lineHeight: '17px',
     fontWeight: 'bolder',
-    textTransform: 'uppercase',
-    marginBottom: '5px'
+    textTransform: 'uppercase'
   },
   list: {
     padding: '0',
@@ -78,16 +78,16 @@ const MovieDetails = ({ data: { title, overview, genre_ids: movieGenres = [], vo
   const classes = useStyles();
 
   const lookupGenres = () => {
-    if (genres.length) {
+    if (Object.values(genres).length) {
       return movieGenres.map(genre => {
-        const movieGenre = genres.find(item => genre === item.id);
+        const movieGenre = genres[genre];
 
         return (<Link className={classes.genre} key={movieGenre.id} to={`/discover/genre/${movieGenre.id}`}>
           <Typography variant="caption" color="white" className={classes.genreText}>{movieGenre.name}</Typography>
         </Link>);
       });
     } else {
-      return Array.from(Array(movieGenres.length)).map(() => <Skeleton width={50} height={30} />);
+      return Array.from(Array(movieGenres.length)).map((_, index) => <Skeleton width={50} height={30} key={index} />);
     }
   }
 

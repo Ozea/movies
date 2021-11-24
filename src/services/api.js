@@ -31,14 +31,14 @@ export const getMovieGenres = () => {
   });
 }
 
-export const getMoviesByGenre = genreId => {
+export const getMoviesByGenre = (genreId, page = 1) => {
   return instance.get(`/discover/movie`, {
     params: {
       language: 'en-US',
       sort_by: 'popularity.desc',
       include_adult: 'false',
       include_video: 'false',
-      page: '1',
+      page,
       with_genres: genreId,
       with_watch_monetization_types: 'flatrate'
     }

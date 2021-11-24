@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 const CustomButton = ({ title, buttonClassName, ...rest }) => {
   const classes = useStyles();
 
-  return (<Button className={classNames(classes.buttonLeaf, buttonClassName)} startIcon={<rest.icon />} {...rest}>
+  return (<Button className={classNames(classes.buttonLeaf, buttonClassName)} startIcon={rest.icon ? <rest.icon /> : null} {...rest}>
     <Typography>{title}</Typography>
   </Button>);
 }

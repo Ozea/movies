@@ -18,13 +18,16 @@ export const moviesSlice = createSlice({
       state.movieDetails = [...state.movieDetails, action.payload];
     },
     setMoviesByGenre: (state, action) => {
+      const { genre, movies } = action.payload;
+      const currentMovies = state.moviesByGenre[genre] || [];
       state.moviesByGenre = {
         ...state.moviesByGenre,
-        [action.payload.genre]: action.payload.movies
+        [genre]: [...currentMovies, ...movies]
       }
     },
     setMovieGenres: (state, action) => {
-      state.genres = action.payload;
+      const genresHashMap = action.payload.reduce((acc, item) => ({ ...acc, [item.id]: item }),{});
+      state.genres = genresHashMap;
     }
   }
 });

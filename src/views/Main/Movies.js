@@ -16,8 +16,6 @@ import Halloween from 'assets/halloween_kills.jpg';
 // Components
 import MovieDetails from 'components/Movie/Details';
 import ShadowedCard from 'components/Movie/ShadowedCard';
-// Utils
-import { genres } from 'utils/movieGenres';
 // Helmet
 import { Helmet } from 'react-helmet';
 import Carousel from 'react-material-ui-carousel';

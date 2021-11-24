@@ -1,16 +1,18 @@
-import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Skeleton, Typography } from '@mui/material';
+import { LinearProgress, List, ListItem, Skeleton, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { GridItem } from 'components';
 import { GridContainer } from 'components';
+import CustomButton from 'components/CustomButton';
 import MovieDetails from 'components/Movie/Details';
-import ShadowedCard from 'components/Movie/ShadowedCard';
+import ShadowedCardWithParallax from 'components/Movie/ShadowedCardWithParallax';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { setMoviesByGenre } from 'reduxToolkit/slices/movies';
 import { originalImageBaseUrl } from 'services/api';
 import { getMoviesByGenre } from 'services/api';
+import ListItemCard from 'components/Movie/ListItemCard';
 
 const useStyles = makeStyles(theme => ({
   movieBackground: {
@@ -30,7 +32,8 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '5px 5px 0 0'
   },
   movieDetailsWrapper: {
-    position: 'unset'
+    position: 'unset',
+    width: '50%',
   },
   mainMovieContainer: {
     position: 'absolute',
@@ -41,46 +44,90 @@ const useStyles = makeStyles(theme => ({
     zIndex: 99,
     borderTop: '1px solid #34415b',
     boxShadow: '0px 1px 20px 4px #202839'
+  },
+  listItem: {
+    overflow: 'hidden',
+    backgroundColor: '#252E42',
+    margin: theme.spacing(1, 0, 2.5),
+    padding: '0',
+    borderRadius: '10px 0 0 10px',
+    boxShadow: '2px 4px 10px 3px #202839'
+  },
+  poster: {
+    height: '300px',
+    width: '200px',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    transition: '.5s all ease'
+  },
+  posterWrapper: {
+    overflow: 'hidden',
+    margin: '0'
+  },
+  loadMoreButton: {
+    padding: theme.spacing(1, 3),
+    '& p': {
+      fontSize: '16px'
+    }
+  },
+  genre: {
+    marginRight: theme.spacing(1.5),
+    padding: theme.spacing(.25, 2),
+    borderRadius: '7px',
+    background: theme.palette.icon,
+    textDecoration: 'none',
+    marginBottom: '5px'
+  },
+  genreText: {
+    fontSize: '10px',
+    lineHeight: '17px',
+    fontWeight: 'bolder',
+    textDecoration: 'none',
+    textTransform: 'uppercase'
+  },
+  clickableCard: {
+    cursor: 'pointer',
+    '&:hover $poster': {
+      transform: 'scale(1.05)'
+    }
+  },
+  cardActionButton: {
+    fontSize: '15px',
+    marginRight: theme.spacing(1.5)
   }
 }));
 
 const MoviesByGenre = props => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [imageParallax, setImageParallax] = useState({ blur: 0, axisY: 0 });
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
   const { moviesByGenre, genres } = useSelector(state => state.movies);
   const dispatch = useDispatch();
   const { id } = useParams();
   const movies = moviesByGenre[id] || [];
-
-  useEffect(() => {
-    document.addEventListener("scroll", scrollHandler);
-
-    return () => document.removeEventListener("scroll", scrollHandler);
-  }, []);
-
-  const scrollHandler = () => {
-    const scrollTop = document.documentElement.scrollTop;
-    if (scrollTop < 500) {
-      return setImageParallax({ blur: scrollTop / 500 * 12, axisY: scrollTop / 500 * 30 });
-    }
-  };
+  const randomMovie = movies[Math.floor(Math.random() * 5)];
 
   useEffect(() => {
     if (!moviesByGenre[id]) {
       setLoading(true);
-      getMoviesByGenre(id)
-        .then(res => {
-          dispatch(setMoviesByGenre({ genre: id, movies: res.data.results }));
-          setLoading(false);
-        })
-        .catch(err => console.error(err));
+      fetchMovies(page);
     }
   }, [id, moviesByGenre]);
 
+  const fetchMovies = page => {
+    return getMoviesByGenre(id, page)
+      .then(res => {
+        dispatch(setMoviesByGenre({ genre: id, movies: res.data.results }));
+        setLoading(false);
+      })
+      .catch(err => console.error(err));
+  }
+
   const genreLookUp = () => {
-    if (genres.length) {
-      const foundGenreById = genres.find(item => item.id === parseInt(id));
+    if (Object.values(genres).length) {
+      const foundGenreById = genres[id];
 
       if (foundGenreById) {
         return foundGenreById.name.toLowerCase();
@@ -96,7 +143,24 @@ const MoviesByGenre = props => {
     return `${originalImageBaseUrl}${uri}`;
   }
 
-  const handleOpenTrailer = url => console.log(url);
+  const fetchMoreMoviesHandler = () => {
+    const newPage = page + 1;
+    setLoadingMore(true);
+    setPage(newPage);
+    fetchMovies(newPage).then(() => setLoadingMore(false));
+  }
+
+  const renderDiscoveredMovies = () => {
+    if (!movies.length && !Object.values(genres).length ) return;
+
+    const data = [...movies];
+
+    return data.map((item, index) => (
+      <React.Fragment key={index}>
+        <ListItemCard data={item} />
+      </React.Fragment >
+    ))
+  }
 
   return (
     <div className={classes.content}>
@@ -109,7 +173,7 @@ const MoviesByGenre = props => {
             </GridItem>
 
             <GridContainer direction="column" justifyContent="center" alignItems="center" className={classes.listingWrapper}>
-              <List sx={{ width: '100%', maxWidth: '75%' }}>
+              <List sx={{ width: '100%', maxWidth: '100%' }}>
                 {Array.from(Array(10)).map((_, index) => (
                   <ListItem alignItems="flex-start" key={index}>
                     <Skeleton height={35} style={{ transform: 'unset', margin: '.25rem 0', width: '100%' }} />
@@ -120,9 +184,9 @@ const MoviesByGenre = props => {
           </GridContainer>
           : (<>
             <GridItem style={{ width: '100%' }} padding={0}>
-              <ShadowedCard
-                imageUrl={formatMovieUrl(movies[0].backdrop_path)}
-                imageStyles={{ transform: `scale(1.1) translateY(${imageParallax.axisY}px)`, filter: `blur(${imageParallax.blur}px)` }}
+              <ShadowedCardWithParallax
+                imageUrl={formatMovieUrl(randomMovie.backdrop_path)}
+                axisY={65}
                 containerClassname={{ height: '600px', marginTop: '1rem', boxShadow: 'unset' }}>
                 <GridContainer className={classes.mainMovieContainer} direction="column" justifyContent="space-evenly">
                   <GridItem>
@@ -131,41 +195,27 @@ const MoviesByGenre = props => {
                     </Typography>
                   </GridItem>
                   <GridItem style={{ marginBottom: '2rem' }}>
-                    <MovieDetails data={movies[0]} openTrailer={handleOpenTrailer} wrapperClassName={classes.movieDetailsWrapper} />
+                    <MovieDetails data={randomMovie} wrapperClassName={classes.movieDetailsWrapper} />
                   </GridItem>
                 </GridContainer>
-              </ShadowedCard>
+              </ShadowedCardWithParallax>
             </GridItem>
 
             <GridContainer direction="column" justifyContent="center" alignItems="center" className={classes.mainShadow}>
               <GridContainer direction="column" justifyContent="center" alignItems="center" className={classes.listingWrapper}>
                 <List sx={{ width: '100%', maxWidth: '90%' }}>
-                  {movies.map((item, index) => (
-                    <React.Fragment key={index}>
-                      <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary="Brunch this weekend?"
-                          secondary={
-                            <>
-                              <Typography
-                                sx={{ display: 'inline' }}
-                                component="span"
-                                variant="body2"
-                                color="textPrimary"
-                              >
-                                Ali Connors
-                              </Typography>
-                              {" — I'll be in your neighborhood doing errands this…"}
-                            </>
-                          }
-                        />
-                      </ListItem>
-                      <Divider variant="inset" component="li" /></React.Fragment>
-                  ))}
+                  {renderDiscoveredMovies()}
                 </List>
+
+                <GridItem marginBottom={1} marginTop={4}>
+                  <CustomButton
+                    title="Load more"
+                    disabled={loadingMore}
+                    onClick={fetchMoreMoviesHandler}
+                    buttonClassName={classes.loadMoreButton} />
+                </GridItem>
+
+                <GridItem marginTop={2} style={{ width: '90%' }}>{loadingMore && <LinearProgress />}</GridItem>
               </GridContainer>
             </GridContainer>
           </>)

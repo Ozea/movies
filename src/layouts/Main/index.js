@@ -23,11 +23,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function MainLayout({ route }) {
   const classes = useStyles();
-  const { popularMovies, genres } = useSelector(state => state.movies);
+  const { genres } = useSelector(state => state.movies);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!genres.length) {
+    if (!Object.values(genres).length) {
       getMovieGenres()
         .then(res => {
           dispatch(setMovieGenres(res.data.genres));
