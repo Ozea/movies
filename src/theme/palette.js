@@ -1,20 +1,17 @@
 import { colors } from '@mui/material';
 
-// const white = '#FFFFFF';
-const white = '#DBE6FD';
+const white = '#fff';
 
 const palette = {
   primary: {
     contrastText: white,
-    // dark: '#252E42',
-    dark: '#293B5F',
+    dark: '#262E40',
     main: '#1f2739',
     light: '#1d2539b0'
   },
   secondary: {
     contrastText: white,
-    dark: '#465881',
-    // dark: '#2F3B52',
+    dark: '#101820',
     main: '#1f2739',
     light: '#1d2539b0'
   },
@@ -26,15 +23,16 @@ const palette = {
   },
   text: {
     primary: white,
-    secondary: '#F7A400',
-    link: colors.blue[600]
+    secondary: '#F2AA4Cff',
+    link: colors.blue[600],
+    hover: '#1C2331'
   },
-  orange: "#F7A400",
+  orange: "#F2AA4Cff",
   movieMask: 'linear-gradient(to right, #2F3B52CF, #2F3B52A1, #8080807d)',
-  shadow: '2px 4px 15px -7px #000000',
+  shadow: '2px 4px 15px -5px #000000',
   link: colors.blue[800],
-  icon: '#B2AB8C',
-  // icon: '#3A9EFD',
+  icon: '#fff',
+  transition: '.5s all ease',
   background: {
     default: '#F4F6F8',
     paper: white

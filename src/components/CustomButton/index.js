@@ -9,18 +9,18 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'flex-start',
     textTransform: 'none',
     color: 'white',
-    // border: '1px solid #3A9EFD',
     border: `1px solid ${theme.palette.icon}`,
+    transition: '.35s all ease',
     borderRadius: '5px',
     letterSpacing: 0,
-    // boxShadow: '0px 0px 5px 0px #3A9EFD',
-    boxShadow: `0px 0px 5px -1px ${theme.palette.icon}`,
+    boxShadow: `0px 0px 5px -2px ${theme.palette.icon}`,
     "&:hover": {
-      // background: '#3A9EFD'
       background: `${theme.palette.icon}`,
-      color: 'white',
-      "& svg": {
-        fill: 'white'
+      "& p": {
+        color: theme.palette.text.hover,
+      },
+      "& svg, & svg path": {
+        fill: theme.palette.text.hover
       }
     },
     "& svg": {

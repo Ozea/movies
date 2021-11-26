@@ -23,9 +23,9 @@ const useStyles = makeStyles(theme => ({
     filter: 'blur(10px)'
   },
   listingWrapper: {
-    padding: '1rem',
-    backgroundColor: theme.palette.secondary.dark,
-    width: '85%',
+    paddingTop: '1rem',
+    backgroundColor: theme.palette.primary.dark,
+    width: '70%',
     margin: '-7.5rem 1rem 1rem',
     zIndex: '15',
     boxShadow: theme.palette.shadow,
@@ -33,11 +33,11 @@ const useStyles = makeStyles(theme => ({
   },
   movieDetailsWrapper: {
     position: 'unset',
-    width: '50%',
+    width: '75%',
   },
   mainMovieContainer: {
     position: 'absolute',
-    width: '75%',
+    width: '65%',
     height: '75%'
   },
   mainShadow: {
