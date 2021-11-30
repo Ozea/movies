@@ -1,4 +1,4 @@
-import { LinearProgress, List, ListItem, Skeleton, Typography } from '@mui/material';
+import { List, ListItem, Skeleton, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { GridItem } from 'components';
 import { GridContainer } from 'components';
@@ -8,11 +8,11 @@ import ShadowedCardWithParallax from 'components/Movie/ShadowedCardWithParallax'
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { setMoviesByGenre } from 'reduxToolkit/slices/movies';
-import { originalImageBaseUrl } from 'services/api';
 import { getMoviesByGenre } from 'services/api';
 import ListItemCard from 'components/Movie/ListItemCard';
+import { formatMovieUrl } from 'utils/movies';
 
 const useStyles = makeStyles(theme => ({
   movieBackground: {
@@ -23,9 +23,9 @@ const useStyles = makeStyles(theme => ({
     filter: 'blur(10px)'
   },
   listingWrapper: {
-    padding: '1rem',
-    backgroundColor: theme.palette.secondary.dark,
-    width: '85%',
+    paddingTop: '1rem',
+    backgroundColor: theme.palette.primary.dark,
+    width: '70%',
     margin: '-7.5rem 1rem 1rem',
     zIndex: '15',
     boxShadow: theme.palette.shadow,
@@ -33,12 +33,12 @@ const useStyles = makeStyles(theme => ({
   },
   movieDetailsWrapper: {
     position: 'unset',
-    width: '50%',
+    width: '75%',
   },
   mainMovieContainer: {
     position: 'absolute',
-    width: '75%',
-    height: '75%'
+    width: '65%',
+    height: '100%'
   },
   mainShadow: {
     zIndex: 99,
@@ -137,10 +137,6 @@ const MoviesByGenre = props => {
     }
 
     return <Skeleton width={100} />;
-  }
-
-  const formatMovieUrl = uri => {
-    return `${originalImageBaseUrl}${uri}`;
   }
 
   const fetchMoreMoviesHandler = () => {

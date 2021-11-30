@@ -90,7 +90,7 @@ export default function TopBar(props) {
   const classes = useStyles();
 
   return (
-    <AppBar position="fixed" className={classes.appBar} elevation={3}>
+    <AppBar position="fixed" className={classes.appBar} elevation={2}>
       <Toolbar className={classes.toolbar}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>

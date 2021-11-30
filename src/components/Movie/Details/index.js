@@ -6,7 +6,7 @@ import { ReactComponent as ReadMore } from 'assets/read-more.svg';
 import GridContainer from 'components/Grid/GridContainer';
 import CustomButton from 'components/CustomButton';
 import dayjs from 'dayjs';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 
@@ -21,8 +21,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontWeight: 'bold',
     lineHeight: '32px',
-    letterSpacing: '2px',
-    marginBottom: theme.spacing(1.5)
+    letterSpacing: '2px'
   },
   description: {
     fontStyle: 'italic',
@@ -57,8 +56,7 @@ const useStyles = makeStyles((theme) => ({
   bullet: {
     width: '8px',
     height: '8px',
-    // background: '#3a9efd',
-    background: theme.palette.icon,
+    background: theme.palette.orange,
     marginRight: '10px',
     borderRadius: '50%',
   },
@@ -76,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MovieDetails = ({ data: { title, overview, genre_ids: movieGenres = [], vote_average, release_date, ...movie }, ...props }) => {
   const { genres } = useSelector(state => state.movies);
-  const description = overview.replace(/.$/, "");
+  const history = useHistory();
   const classes = useStyles();
 
   const lookupGenres = () => {
@@ -93,12 +91,11 @@ const MovieDetails = ({ data: { title, overview, genre_ids: movieGenres = [], vo
     }
   }
 
+  const navigateToMovie = () => history.push(`/movie/${movie.id}`);
+
   return (
     <div className={classNames(classes.wrapper, props.wrapperClassName)}>
       <Typography variant="h1" color="textSecondary" className={classes.title}>{title}</Typography>
-      <Typography variant="caption" color="textPrimary" className={classes.description}>
-        “{description.length > 300 ? `${description.substring(0, 300)}...` : description}”
-      </Typography>
       <GridContainer>
         <List className={classes.list}>
           <ListItem><div className={classes.bullet}></div><ListItemText primary={dayjs(release_date).year()} /></ListItem>
@@ -109,8 +106,8 @@ const MovieDetails = ({ data: { title, overview, genre_ids: movieGenres = [], vo
         {lookupGenres()}
       </GridContainer>
       <GridContainer style={{ marginTop: '1rem' }}>
-        <CustomButton title="Play" icon={PlayArrow} buttonClassName={classes.button} />
-        <CustomButton title="About" icon={ReadMore} buttonClassName={classes.button} />
+        <CustomButton title="Play" icon={PlayArrow} buttonClassName={classes.button} onClick={navigateToMovie} />
+        <CustomButton title="About" icon={ReadMore} buttonClassName={classes.button} onClick={navigateToMovie} />
       </GridContainer>
     </div>
   );

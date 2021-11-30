@@ -22,7 +22,7 @@ export default function GridItem(props) {
       item {...rest}
       className={classNames({
         [classes.grid]: props.padding !== 0,
-        className
+        [className]: className
       })}>
       {children}
     </Grid >

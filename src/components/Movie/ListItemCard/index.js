@@ -8,8 +8,8 @@ import CustomButton from 'components/CustomButton';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { originalImageBaseUrl } from 'services/api';
 import dayjs from 'dayjs';
+import { formatMovieUrl } from 'utils/movies';
 
 const useStyles = makeStyles(theme => ({
   poster: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
-    transition: '.5s all ease'
+    transition: theme.palette.transition,
   },
   posterWrapper: {
     overflow: 'hidden',
@@ -43,12 +43,15 @@ const useStyles = makeStyles(theme => ({
   listItem: {
     overflow: 'hidden',
     width: '100%',
-    // backgroundColor: '#252E42',
     backgroundColor: theme.palette.primary.dark,
     margin: theme.spacing(1, 0, 2.5),
     padding: '0',
     borderRadius: '10px 0 0 10px',
-    boxShadow: `2px 4px 10px 1px ${theme.palette.primary.dark}`
+    boxShadow: `1px 1px 4px 0px ${theme.palette.secondary.dark}`,
+    transition: theme.palette.transition,
+    "&:hover": {
+      boxShadow: `1px 1px 6px 2px ${theme.palette.secondary.dark}`,
+    }
   },
   clickableCard: {
     margin: 'auto',
@@ -83,7 +86,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '50%',
   },
   movieDescription: {
-    width: '65%'
+    width: '75%'
   }
 }));
 
@@ -92,12 +95,12 @@ const ListIemCard = ({ data }) => {
   const { genres } = useSelector(state => state.movies);
   const history = useHistory();
 
-  const formatMovieUrl = uri => {
-    return `${originalImageBaseUrl}${uri}`;
+  const navigateToDetailedMovie = () => {
+    history.push(`/movie/${data.id}`);
   }
 
   return (
-    <div onClick={() => history.push(`/movie/details/${data.id}`)} className={classes.clickableCard}>
+    <div onClick={navigateToDetailedMovie} className={classes.clickableCard}>
       <ListItem alignItems="flex-start" className={classes.listItem}>
         <GridContainer flexWrap="unset">
           <ListItemAvatar className={classes.posterWrapper}>
@@ -114,7 +117,7 @@ const ListIemCard = ({ data }) => {
               <GridItem flexWrap="wrap">
                 {Object.values(genres).length && data.genre_ids.slice(0, 5).map(genreId => {
                   const genre = genres[genreId];
-                  return (<Link className={classes.genre} key={genre.id} to={`/discover/genre/${genre.id}`}>
+                  return (<Link className={classes.genre} key={genre.id} to={`/discover/genre/${genre.id}`} onClick={event => event.stopPropagation()}>
                     <Typography variant="caption" color="white" className={classes.genreText}>{genre.name}</Typography>
                   </Link>)
                 })}
@@ -127,7 +130,7 @@ const ListIemCard = ({ data }) => {
                       size={25}
                       color={data.vote_average > 5 ? "success" : "warning"}
                       value={data.vote_average * 10} />
-                    <ListItemText primary={`${data.vote_average} IMDB`} style={{ marginLeft: '.5rem' }} />
+                    <ListItemText primary={`${data.vote_average} IMDB`} style={{ marginLeft: '.75rem' }} />
                   </ListItem>
                   <ListItem><div className={classes.bullet}></div><ListItemText primary={dayjs(data.release_date).year()} /></ListItem>
                 </List>

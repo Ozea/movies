@@ -19,8 +19,8 @@ import ShadowedCard from 'components/Movie/ShadowedCard';
 // Helmet
 import { Helmet } from 'react-helmet';
 import Carousel from 'react-material-ui-carousel';
-import { originalImageBaseUrl } from 'services/api';
 import { Link } from 'react-router-dom';
+import { formatMovieUrl } from 'utils/movies';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -87,10 +87,6 @@ export default function Movies() {
         .catch(err => console.error(err));
     }
   }, [popularMovies]);
-
-  const formatMovieUrl = uri => {
-    return `${originalImageBaseUrl}${uri}`;
-  }
 
   const handleCloseTrailer = () => {
     setOpen(false);
