@@ -5,13 +5,13 @@ const white = '#fff';
 const palette = {
   primary: {
     contrastText: white,
-    dark: '#262E40',
+    dark: '#101820',
     main: '#1f2739',
     light: '#1d2539b0'
   },
   secondary: {
     contrastText: white,
-    dark: '#101820',
+    dark: '#0d0d0d',
     main: '#1f2739',
     light: '#1d2539b0'
   },
@@ -27,8 +27,9 @@ const palette = {
     link: colors.blue[600],
     hover: '#1C2331'
   },
+  white: '#fff',
   orange: "#F2AA4Cff",
-  movieMask: 'linear-gradient(to right, #2F3B52CF, #2F3B52A1, #8080807d)',
+  movieMask: 'linear-gradient(to top, #2F3B52CF, #2F3B52A1, #8080807d)',
   shadow: '2px 4px 15px -5px #000000',
   link: colors.blue[800],
   icon: '#fff',

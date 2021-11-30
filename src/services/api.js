@@ -18,7 +18,7 @@ export const getNowPlayingMovies = () => {
 export const getMovieDetails = id => {
   return instance.get(`/movie/${id}`, {
     params: {
-      append_to_response: 'videos,images'
+      append_to_response: 'videos,images,credits,similar'
     }
   });
 }

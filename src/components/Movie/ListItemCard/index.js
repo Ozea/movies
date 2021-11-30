@@ -8,8 +8,8 @@ import CustomButton from 'components/CustomButton';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { originalImageBaseUrl } from 'services/api';
 import dayjs from 'dayjs';
+import { formatMovieUrl } from 'utils/movies';
 
 const useStyles = makeStyles(theme => ({
   poster: {
@@ -95,12 +95,7 @@ const ListIemCard = ({ data }) => {
   const { genres } = useSelector(state => state.movies);
   const history = useHistory();
 
-  const formatMovieUrl = uri => {
-    return `${originalImageBaseUrl}${uri}`;
-  }
-
   const navigateToDetailedMovie = () => {
-    console.log('Navigate to detailed movie');
     history.push(`/movie/${data.id}`);
   }
 
