@@ -180,7 +180,7 @@ export default function Login() {
           </FormControl>
           <GridContainer sx={{ marginTop: '.5rem' }} justifyContent="space-between">
             <Button variant="outlined" className={classes.forgotPassword} sx={{ marginRight: '10px' }}>Forgot password?</Button>
-            <Button variant="outlined" className={classes.forgotPassword}>Sign up</Button>
+            <Button variant="outlined" className={classes.forgotPassword} onClick={() => history.push('/auth/register')}>Sign up</Button>
           </GridContainer>
 
           <GridContainer sx={{ marginTop: '1.25rem' }} justifyContent="center">
