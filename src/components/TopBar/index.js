@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 // Core
-import { AppBar, Toolbar, IconButton, InputBase, alpha } from "@mui/material";
+import { AppBar, Toolbar, IconButton, InputBase, alpha, Popper, Fade, Paper, Typography, Button, Divider } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 // Icons
-import { Search, AccountCircle } from "@mui/icons-material";
+import { Search, AccountCircle, Logout } from "@mui/icons-material";
 import { ReactComponent as Crown } from 'assets/crown.svg';
 // Utils
 import { drawerWidth } from "components/Sidebar/config";
 import CustomButton from 'components/CustomButton';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -87,7 +88,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function TopBar(props) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const history = useHistory();
   const classes = useStyles();
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+    setOpen(prev => !prev);
+  };
 
   return (
     <AppBar position="fixed" className={classes.appBar} elevation={2}>
@@ -112,9 +121,30 @@ export default function TopBar(props) {
             edge="end"
             aria-label="account of current user"
             aria-haspopup="true"
+            onClick={handleClick}
             color="inherit" >
             <AccountCircle />
           </IconButton>
+
+          <Popper open={open} anchorEl={anchorEl} placement="bottom-start" transition style={{ zIndex: 1100 }}>
+            {({ TransitionProps }) => (
+              <Fade {...TransitionProps} timeout={350}>
+                <Paper sx={{ p: .75 }}>
+                  <Button
+                    variant="contained"
+                    startIcon={<AccountCircle />}
+                    sx={{ textTransform: 'capitalize' }}
+                    style={{ width: '100%', marginBottom: '.5rem' }}>Profile</Button>
+                  <Divider />
+                  <Button
+                    variant="outlined"
+                    startIcon={<Logout />}
+                    onClick={() => history.push('/auth/login')}
+                    sx={{ textTransform: 'initial' }}>Log out</Button>
+                </Paper>
+              </Fade>
+            )}
+          </Popper>
         </div>
       </Toolbar>
     </AppBar>
