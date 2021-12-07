@@ -53,14 +53,29 @@ export const routes = [
         component: lazy(() => import('views/Main/Movies'))
       },
       {
-        path: '/discover/genre/:id',
+        path: '/movie/discover/genre/:id',
         exact: true,
         component: lazy(() => import('views/Main/MoviesByGenre'))
+      },
+      {
+        path: '/tv/discover/genre/:id',
+        exact: true,
+        component: lazy(() => import('views/Main/TvShowsByGenre'))
       },
       {
         path: '/movie/:id',
         exact: true,
         component: lazy(() => import('views/Main/DetailedMovie'))
+      },
+      {
+        path: '/tv/:id',
+        exact: true,
+        component: lazy(() => import('views/Main/DetailedTvShow'))
+      },
+      {
+        path: '/series',
+        exact: true,
+        component: lazy(() => import('views/Main/Series'))
       },
       {
         component: () => <Redirect to="/errors/404" />

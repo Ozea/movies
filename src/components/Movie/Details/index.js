@@ -72,30 +72,35 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const MovieDetails = ({ data: { title, overview, genre_ids: movieGenres = [], vote_average, release_date, ...movie }, ...props }) => {
-  const { genres } = useSelector(state => state.movies);
+const MovieDetails = ({ data: { title, overview, genre_ids: movieGenres = [], vote_average, release_date, name, ...movie }, type = "movie", ...props }) => {
+  const { genres: globalMovieGenres } = useSelector(state => state.movies);
+  const { genres: globalTvGenres } = useSelector(state => state.series);
   const history = useHistory();
   const classes = useStyles();
 
   const lookupGenres = () => {
-    if (Object.values(genres).length) {
-      return movieGenres.map(genre => {
-        const movieGenre = genres[genre];
+    let genresArray = type === "movie" ? globalMovieGenres || [] : globalTvGenres || [];
 
-        return (<Link className={classes.genre} key={movieGenre.id} to={`/discover/genre/${movieGenre.id}`}>
-          <Typography variant="caption" color="white" className={classes.genreText}>{movieGenre.name}</Typography>
-        </Link>);
+    if (Object.values(genresArray).length) {
+      return movieGenres.map(genre => {
+        let currentGenre = genresArray[genre];
+
+        if (currentGenre) {
+          return (<Link className={classes.genre} key={currentGenre.id} to={`/${type}/discover/genre/${currentGenre.id}`}>
+            <Typography variant="caption" color="white" className={classes.genreText}>{currentGenre.name}</Typography>
+          </Link>);
+        }
       });
     } else {
       return Array.from(Array(movieGenres.length)).map((_, index) => <Skeleton width={50} height={30} key={index} />);
     }
   }
 
-  const navigateToMovie = () => history.push(`/movie/${movie.id}`);
+  const navigateToMovie = () => history.push(`/${type}/${movie.id}`);
 
   return (
     <div className={classNames(classes.wrapper, props.wrapperClassName)}>
-      <Typography variant="h1" color="textSecondary" className={classes.title}>{title}</Typography>
+      <Typography variant="h1" color="textSecondary" className={classes.title}>{title || name}</Typography>
       <GridContainer>
         <List className={classes.list}>
           <ListItem><div className={classes.bullet}></div><ListItemText primary={dayjs(release_date).year()} /></ListItem>

@@ -6,6 +6,19 @@ export const getTrendingMovies = () => {
   return instance.get('/trending/movie/week');
 }
 
+export const getTrendingTvShows = () => {
+  return instance.get('/trending/tv/week');
+}
+
+export const getTvShowById = id => {
+  return instance.get(`/tv/${id}`, {
+    params: {
+      language: 'en-US',
+      append_to_response: 'videos,images,credits,similar'
+    }
+  });
+}
+
 export const getNowPlayingMovies = () => {
   return instance.get('/movie/now_playing', {
     params: {
@@ -25,6 +38,14 @@ export const getMovieDetails = id => {
 
 export const getMovieGenres = () => {
   return instance.get('/genre/movie/list', {
+    params: {
+      language: 'en-US'
+    }
+  });
+}
+
+export const getTvGenres = () => {
+  return instance.get('/genre/tv/list', {
     params: {
       language: 'en-US'
     }

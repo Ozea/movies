@@ -10,6 +10,8 @@ import { getMovieGenres } from "services/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setMovieGenres } from "reduxToolkit/slices/movies";
 import { ArrowUpward } from "@mui/icons-material";
+import { getTvGenres } from "services/api";
+import { setTvGenres } from "reduxToolkit/slices/series";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,9 +44,11 @@ export default function MainLayout({ route }) {
 
   useEffect(() => {
     if (!Object.values(genres).length) {
-      getMovieGenres()
+      Promise.all([getMovieGenres(), getTvGenres()])
         .then(res => {
-          dispatch(setMovieGenres(res.data.genres));
+          const [movieGenres, tvGenres] = res;
+          dispatch(setMovieGenres(movieGenres.data.genres));
+          dispatch(setTvGenres(tvGenres.data.genres));
         })
         .catch(err => console.error(err));
     }

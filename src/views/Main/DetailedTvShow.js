@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { getMovieDetails } from 'services/api';
 import { formatMovieUrl } from 'utils/movies';
-import { GridContainer } from 'components';
+import { GridContainer, GridItem } from 'components';
 import { Skeleton, Typography } from '@mui/material';
 import { useParams } from 'react-router';
-import { GridItem } from 'components';
 import { Helmet } from 'react-helmet';
 import { makeStyles } from '@mui/styles';
 import ShadowedCardWithParallax from 'components/Movie/ShadowedCardWithParallax';
 import Carousel from 'react-material-ui-carousel';
-import { convertArrayIntoArrayOfArrays } from 'utils/movies';
+import { getTvShowById } from 'services/api';
 import DetailedViewVideos from 'components/DetailedView/Videos';
-import Images from 'components/DetailedView/Images';
 import Similar from 'components/DetailedView/Similar';
 import Cast from 'components/DetailedView/Cast';
-import MovieDescription from 'components/DetailedView/MovieDescription';
-import { detailedMovieStyles } from 'assets/jss/detailedMovieStyles';
+import { convertArrayIntoArrayOfArrays } from 'utils/movies';
+import { detailedTvShowStyles } from 'assets/jss/detailedTvShowStyles';
+import TvShowDescription from 'components/DetailedView/TvShowDescription';
+import Seasons from 'components/DetailedView/Seasons';
 
 const useStyles = makeStyles(theme => ({
-  ...detailedMovieStyles(theme)
+  ...detailedTvShowStyles(theme)
 }));
 
-const DetailedMovie = () => {
+const DetailedTvShow = () => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [movie, setMovie] = useState(null);
+  const [tvShow, setTvShow] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
     setLoading(true);
-    getMovieDetails(id)
+    getTvShowById(id)
       .then(res => {
-        setMovie(res.data);
+        console.log(res.data);
+        setTvShow(res.data);
         setLoading(false)
       })
       .catch(err => {
@@ -40,60 +40,48 @@ const DetailedMovie = () => {
       });
   }, [id]);
 
-  const renderMovieVideos = () => {
-    const videos = convertArrayIntoArrayOfArrays(movie.videos.results.filter(item => item.site === 'YouTube'), 20, 2);
-    return videos.map((bunchOfMovies, i) => <DetailedViewVideos data={bunchOfMovies} key={i} />);
-  }
-
-  const renderMovieImages = () => {
-    const images = convertArrayIntoArrayOfArrays(movie.images.backdrops, 20, 2);
-    return images.map((bunchOfImages, i) => <Images data={bunchOfImages} key={i} />);
+  const renderTvSeasons = () => {
+    const seasons = convertArrayIntoArrayOfArrays(tvShow.seasons, 20, 4);
+    return seasons.map((bunchOfSeasons, i) => <Seasons data={bunchOfSeasons} key={i} />);
   }
 
   const renderSimilarMovies = () => {
-    const simillarMovies = convertArrayIntoArrayOfArrays(movie.similar.results, 20, 4);
-    return simillarMovies.map((bunchOfMovies, i) => <Similar data={bunchOfMovies} key={i} />);
+    const simillarMovies = convertArrayIntoArrayOfArrays(tvShow.similar.results, 20, 4);
+    return simillarMovies.map((bunchOfMovies, i) => <Similar data={bunchOfMovies} type="tv" key={i} />)
   }
 
   const renderCast = () => {
-    const originalCastArray = movie.credits.cast.filter(item => item.profile_path);
+    const originalCastArray = tvShow.credits.cast.filter(item => item.profile_path);
     const cast = convertArrayIntoArrayOfArrays(originalCastArray, originalCastArray.length, 5);
-    return cast.map((bunchOfActors, i) => <Cast data={bunchOfActors} key={i} />)
+    return cast.map((bunchOfActors, i) => <Cast data={bunchOfActors} key={i} />);
   }
 
   return (
     <>
-      <Helmet><title>Movie {movie ? `- ${movie.title}` : ''}</title></Helmet>
+      <Helmet><title>TV {tvShow ? `- ${tvShow.name}` : ''}</title></Helmet>
       {
-        loading || !movie
+        loading || !tvShow
           ? <GridContainer><Skeleton height={600} style={{ transform: 'unset' }} /></GridContainer>
           : <GridContainer>
             <GridItem padding={0} className={classes.headerImage}>
               <ShadowedCardWithParallax
-                imageUrl={formatMovieUrl(movie.backdrop_path)}
+                imageUrl={formatMovieUrl(tvShow.backdrop_path)}
                 axisY={65}
                 containerClassname={{ height: 'calc(100vh - 64px)', marginTop: '1rem', boxShadow: 'unset', borderRadius: '0' }}>
                 <GridContainer className={classes.mainMovieContainer} justifyContent="space-around" alignItems="center">
                   <GridItem style={{ width: '85%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', position: 'relative' }}>
                     <div className={classes.test}><div /></div>
-                    <div className={classes.poster} style={{ backgroundImage: `url(${formatMovieUrl(movie.poster_path)})` }}></div>
-                    <MovieDescription movie={movie} />
+                    <div className={classes.poster} style={{ backgroundImage: `url(${formatMovieUrl(tvShow.poster_path)})` }}></div>
+                    <TvShowDescription tvShow={tvShow} />
                   </GridItem>
                 </GridContainer>
               </ShadowedCardWithParallax>
             </GridItem>
 
             <GridItem padding={0} className={classes.gridItem}>
-              <Typography variant="h1" color="textPrimary" className={classes.contentHeading}>Videos</Typography>
+              <Typography variant="h1" color="textPrimary" className={classes.contentHeading}>Seasons</Typography>
               <Carousel indicatorContainerProps={{ style: { marginTop: '2rem' } }}>
-                {renderMovieVideos()}
-              </Carousel>
-            </GridItem>
-
-            <GridItem padding={0} className={classes.gridItem}>
-              <Typography variant="h1" color="textPrimary" className={classes.contentHeading}>Images</Typography>
-              <Carousel indicatorContainerProps={{ style: { marginTop: '2rem' } }}>
-                {renderMovieImages()}
+                {renderTvSeasons()}
               </Carousel>
             </GridItem>
 
@@ -130,4 +118,4 @@ const DetailedMovie = () => {
   );
 }
 
-export default DetailedMovie;
+export default DetailedTvShow;

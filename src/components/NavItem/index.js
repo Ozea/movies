@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.secondary.dark,
     fontWeight: theme.typography.fontWeightMedium,
     '& $icon': {
-      color: theme.palette.secondary.dark
+      color: 'white'
     }
   }
 }));
