@@ -10,11 +10,33 @@ export const getTrendingTvShows = () => {
   return instance.get('/trending/tv/week');
 }
 
+export const getPopularTvShows = () => {
+  return instance.get('/tv/popular');
+}
+
+export const getPopularMovies = () => {
+  return instance.get('/movie/popular');
+}
+
 export const getTvShowById = id => {
   return instance.get(`/tv/${id}`, {
     params: {
       language: 'en-US',
       append_to_response: 'videos,images,credits,similar'
+    }
+  });
+}
+
+export const getTvShowsByGenre = (genreId, page = 1) => {
+  return instance.get(`/discover/tv`, {
+    params: {
+      language: 'en-US',
+      sort_by: 'popularity.desc',
+      include_adult: 'false',
+      include_video: 'false',
+      page,
+      with_genres: genreId,
+      with_watch_monetization_types: 'flatrate'
     }
   });
 }

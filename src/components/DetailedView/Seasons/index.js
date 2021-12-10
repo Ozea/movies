@@ -35,12 +35,12 @@ export default function Seasons({ data, type = "movie" }) {
   return (
     <GridContainer justifyContent="center">
       {data.map((season, index) => (
-        <Link to={`/${type}/${season.id}`} className={classes.simmilarMovieLink} key={index}>
+        <div className={classes.simmilarMovieLink} key={index}>
           <div style={{ backgroundImage: `url(${formatMovieUrl(season.poster_path)})` }} className={classes.simmilarMoviePoster} />
           <GridContainer direction="column" paddingTop={2} paddingBottom={2} paddingLeft={1}>
             <Typography variant="h4" color="textSecondary" paddingTop={2}>{season.name}</Typography>
           </GridContainer>
-        </Link>
+        </div>
       ))}
     </GridContainer>
   );

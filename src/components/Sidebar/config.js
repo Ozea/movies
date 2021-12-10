@@ -20,8 +20,8 @@ const sidebarConfig = [
         icon: Theaters
       },
       {
-        title: 'TV Show',
-        href: '/tv-show',
+        title: 'Popular',
+        href: '/popular',
         icon: TvShow
       }
     ]
@@ -29,8 +29,8 @@ const sidebarConfig = [
   {
     items: [
       {
-        title: 'Trending',
-        href: '/trending',
+        title: 'Upcoming',
+        href: '/upcoming',
         icon: Hot
       },
       {

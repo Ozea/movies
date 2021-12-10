@@ -4,11 +4,11 @@ import { makeStyles } from '@mui/styles';
 import { PlayArrow } from '@mui/icons-material';
 import { ReactComponent as ReadMore } from 'assets/read-more.svg';
 import GridContainer from 'components/Grid/GridContainer';
-import CustomButton from 'components/CustomButton';
 import dayjs from 'dayjs';
 import { Link, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import CustomLink from 'components/CustomLink';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -96,8 +96,6 @@ const MovieDetails = ({ data: { title, overview, genre_ids: movieGenres = [], vo
     }
   }
 
-  const navigateToMovie = () => history.push(`/${type}/${movie.id}`);
-
   return (
     <div className={classNames(classes.wrapper, props.wrapperClassName)}>
       <Typography variant="h1" color="textSecondary" className={classes.title}>{title || name}</Typography>
@@ -111,8 +109,8 @@ const MovieDetails = ({ data: { title, overview, genre_ids: movieGenres = [], vo
         {lookupGenres()}
       </GridContainer>
       <GridContainer style={{ marginTop: '1rem' }}>
-        <CustomButton title="Play" icon={PlayArrow} buttonClassName={classes.button} onClick={navigateToMovie} />
-        <CustomButton title="About" icon={ReadMore} buttonClassName={classes.button} onClick={navigateToMovie} />
+        <CustomLink title="Play" icon={PlayArrow} buttonClassName={classes.button} to={`/${type}/${movie.id}`} />
+        <CustomLink title="About" icon={ReadMore} buttonClassName={classes.button} to={`/${type}/${movie.id}`} />
       </GridContainer>
     </div>
   );

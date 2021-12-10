@@ -54,6 +54,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   clickableCard: {
+    textDecoration: 'none',
     margin: 'auto',
     cursor: 'pointer',
     '&:hover $poster': {
@@ -82,6 +83,7 @@ const useStyles = makeStyles(theme => ({
     width: '8px',
     height: '8px',
     background: '#3a9efd',
+    backgroundColor: theme.palette.orange,
     marginRight: '10px',
     borderRadius: '50%',
   },
@@ -90,17 +92,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ListIemCard = ({ data }) => {
+const ListIemCard = ({ data, globalGenres, type = "movie" }) => {
+  console.log(type);
   const classes = useStyles();
-  const { genres } = useSelector(state => state.movies);
-  const history = useHistory();
-
-  const navigateToDetailedMovie = () => {
-    history.push(`/movie/${data.id}`);
-  }
 
   return (
-    <div onClick={navigateToDetailedMovie} className={classes.clickableCard}>
+    <Link to={`/${type}/${data.id}`} className={classes.clickableCard}>
       <ListItem alignItems="flex-start" className={classes.listItem}>
         <GridContainer flexWrap="unset">
           <ListItemAvatar className={classes.posterWrapper}>
@@ -108,16 +105,24 @@ const ListIemCard = ({ data }) => {
           </ListItemAvatar>
           <GridContainer direction="column" className={classes.movieDescription}>
             <GridContainer direction="column" margin={2}>
-              <GridItem><Typography variant="h2" color="textSecondary" letterSpacing={1} lineHeight='25px' paddingBottom={2}>{data.title}</Typography></GridItem>
+              <GridItem>
+                <Typography variant="h2" color="textSecondary" letterSpacing={1} lineHeight='25px' paddingBottom={2}>
+                  {type === "movie" ? data.title : data.name}
+                </Typography>
+              </GridItem>
               <GridItem marginBottom={2}>
-                <Typography variant="subtitle" paddingBottom={2} fontSize={15}>
+                <Typography variant="subtitle" paddingBottom={2} fontSize={15} color="white">
                   <i>“{data.overview.length > 250 ? `${data.overview.substring(0, 250)}...` : data.overview}”</i>
                 </Typography>
               </GridItem>
               <GridItem flexWrap="wrap">
-                {Object.values(genres).length && data.genre_ids.slice(0, 5).map(genreId => {
-                  const genre = genres[genreId];
-                  return (<Link className={classes.genre} key={genre.id} to={`/discover/genre/${genre.id}`} onClick={event => event.stopPropagation()}>
+                {Object.values(globalGenres).length && data.genre_ids.slice(0, 5).map(genreId => {
+                  const genre = globalGenres[genreId];
+                  return (<Link
+                    className={classes.genre}
+                    key={genre.id}
+                    to={`/${type}/discover/genre/${genre.id}`}
+                    onClick={event => event.stopPropagation()}>
                     <Typography variant="caption" color="white" className={classes.genreText}>{genre.name}</Typography>
                   </Link>)
                 })}
@@ -146,7 +151,7 @@ const ListIemCard = ({ data }) => {
           </GridContainer>
         </GridContainer>
       </ListItem>
-    </div>
+    </Link>
   );
 }
 
