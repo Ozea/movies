@@ -36,10 +36,14 @@ export const tvShowDescriptionStyles = theme => ({
     marginBottom: theme.spacing(2),
     fontSize: '13px'
   },
+  imgWrapper: {
+    width: '100px',
+    height: 'auto',
+    marginRight: theme.spacing(2)
+  },
   prodCompaniesWrapper: {
     display: 'flex',
     marginTop: '15px',
-    width: '40%',
     alignItems: 'center'
   },
   prodCompLogo: {

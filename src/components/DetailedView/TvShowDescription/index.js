@@ -14,17 +14,20 @@ const useStyles = makeStyles(theme => ({
   ...tvShowDescriptionStyles(theme)
 }));
 
-export default function TvShowDescription({ tvShow }) {
+export default function TvShowDescription({ tvShow, openTrailer }) {
   const classes = useStyles();
   const history = useHistory();
 
   const renderProductionCompamnies = () => {
     return tvShow.production_companies.filter(item => item.logo_path).slice(0, 3).map(item =>
-    (<img
-      key={item.id}
-      className={classes.prodCompLogo}
-      alt={item.name}
-      src={item.logo_path ? formatMovieUrl(item.logo_path) : ''} />));
+    (
+      <div className={classes.imgWrapper}>
+        <img
+          key={item.id}
+          className={classes.prodCompLogo}
+          alt={item.name}
+          src={item.logo_path ? formatMovieUrl(item.logo_path) : ''} />
+      </div>));
   }
 
   const renderCastNames = () => {
@@ -33,11 +36,17 @@ export default function TvShowDescription({ tvShow }) {
     </Typography>;
   }
 
+  const openTrailerHandler = () => {
+    openTrailer();
+  }
+
   return (
     <Paper className={classes.movieDetails}>
       <GridContainer direction="column" justifyContent="start" alignItems="start">
         <Typography variant="h1" color="textSecondary" className={classes.text} style={{ marginBottom: '.75rem' }}>{tvShow.name}</Typography>
-        <Typography variant="h4" color="textSecondary" fontStyle="italic" className={classes.text}>"{tvShow.tagline}"</Typography>
+        <Typography variant="h4" color="textSecondary" fontStyle="italic" className={classes.text}>
+          {tvShow.tagline ? `"${tvShow.tagline}"` : ''}
+        </Typography>
         <Typography variant="caption" color="secondary.dark" className={classes.genres}>
           {tvShow.genres.map((item, i) => item.name).join(', ')}
         </Typography>
@@ -49,7 +58,7 @@ export default function TvShowDescription({ tvShow }) {
             </ListItem>
           ))}
         </List>
-        <Typography variant="subtitle1" color="secondary.dark" className={classes.text}><i>"{tvShow.overview}"</i></Typography>
+        <Typography variant="subtitle1" color="secondary.dark" className={classes.text}><i>{tvShow.overview}</i></Typography>
         <Typography variant="subtitle2" color="secondary.dark" className={classes.text}>
         </Typography>
         <GridContainer flexWrap="wrap">
@@ -63,8 +72,8 @@ export default function TvShowDescription({ tvShow }) {
       </GridContainer>
       <GridContainer marginTop={4}>
         <CustomButton onClick={() => history.goBack()} title="Back" icon={ArrowBack} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
-        <CustomButton title="Play" icon={PlayArrow} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
-        <CustomButton title="Trailer" icon={Movie} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
+        <CustomButton title="Play" icon={PlayArrow} onClick={openTrailerHandler} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
+        <CustomButton title="Trailer" icon={Movie} onClick={openTrailerHandler} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
       </GridContainer>
     </Paper>
   );

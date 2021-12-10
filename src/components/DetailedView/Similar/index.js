@@ -41,7 +41,7 @@ export default function Similar({ data, type = "movie" }) {
             <Typography variant="h4" color="textSecondary" paddingTop={2}>
               {similartvShow[type === "movie" ? 'title' : 'name']}
             </Typography>
-            <Typography variant="subtitle1" color="white" paddingTop={2}>{dayjs(similartvShow.release_date).format("MMMM DD, YYYY")}</Typography>
+            <Typography variant="subtitle1" color="white" paddingTop={2}>{dayjs(similartvShow.first_air_date).format("MMMM DD, YYYY")}</Typography>
             <Typography variant="subtitle2" color="white" paddingTop={2}>
               <GridContainer>
                 <CircularProgress

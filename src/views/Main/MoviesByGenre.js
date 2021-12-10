@@ -74,7 +74,7 @@ const MoviesByGenre = props => {
 
     return data.map((item, index) => (
       <React.Fragment key={index}>
-        <ListItemCard data={item} />
+        <ListItemCard data={item} globalGenres={genres} />
       </React.Fragment >
     ))
   }

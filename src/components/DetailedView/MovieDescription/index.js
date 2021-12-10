@@ -14,17 +14,20 @@ const useStyles = makeStyles(theme => ({
   ...movieDescriptionStyles(theme)
 }));
 
-export default function MovieDescription({ movie }) {
+export default function MovieDescription({ movie, openTrailer }) {
   const classes = useStyles();
   const history = useHistory();
 
   const renderProductionCompamnies = () => {
     return movie.production_companies.filter(item => item.logo_path).slice(0, 3).map(item =>
-    (<img
-      key={item.id}
-      className={classes.prodCompLogo}
-      alt={item.name}
-      src={item.logo_path ? formatMovieUrl(item.logo_path) : ''} />));
+    (
+      <div className={classes.imgWrapper}>
+        <img
+          key={item.id}
+          className={classes.prodCompLogo}
+          alt={item.name}
+          src={item.logo_path ? formatMovieUrl(item.logo_path) : ''} />
+      </div>));
   }
 
   const renderCastNames = () => {
@@ -37,6 +40,10 @@ export default function MovieDescription({ movie }) {
     const hours = Math.floor(movie.runtime / 60);
     const minutes = movie.runtime - hours * 60;
     return `${hours}h ${minutes}min`;
+  }
+
+  const openTrailerHandler = () => {
+    openTrailer();
   }
 
   return (
@@ -68,8 +75,8 @@ export default function MovieDescription({ movie }) {
       </GridContainer>
       <GridContainer marginTop={4}>
         <CustomButton onClick={() => history.goBack()} title="Back" icon={ArrowBack} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
-        <CustomButton title="Play" icon={PlayArrow} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
-        <CustomButton title="Trailer" icon={Movie} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
+        <CustomButton title="Play" icon={PlayArrow} onClick={openTrailerHandler} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
+        <CustomButton title="Trailer" icon={Movie} onClick={openTrailerHandler} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
       </GridContainer>
     </Paper>
   );

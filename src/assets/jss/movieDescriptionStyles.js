@@ -39,8 +39,12 @@ export const movieDescriptionStyles = theme => ({
   prodCompaniesWrapper: {
     display: 'flex',
     marginTop: '15px',
-    width: '40%',
     alignItems: 'center'
+  },
+  imgWrapper: {
+    width: '100px',
+    height: 'auto',
+    marginRight: theme.spacing(2)
   },
   prodCompLogo: {
     width: '100%',
