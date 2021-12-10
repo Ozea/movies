@@ -46,7 +46,7 @@ export default function Footer() {
           backgroundColor: theme => theme.palette.primary.dark
         }}
       >
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" sx={{ ml: 0 }}>
           <Typography variant="body1">
             Designed and developed by
             {' '}
