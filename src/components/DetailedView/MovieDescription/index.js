@@ -21,9 +21,8 @@ export default function MovieDescription({ movie, openTrailer }) {
   const renderProductionCompamnies = () => {
     return movie.production_companies.filter(item => item.logo_path).slice(0, 3).map(item =>
     (
-      <div className={classes.imgWrapper}>
+      <div className={classes.imgWrapper} key={item.id}>
         <img
-          key={item.id}
           className={classes.prodCompLogo}
           alt={item.name}
           src={item.logo_path ? formatMovieUrl(item.logo_path) : ''} />
