@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Similar({ data, type = "movie" }) {
   const classes = useStyles();
+  console.log(data);
 
   return (
     <GridContainer justifyContent="center">
@@ -41,7 +42,9 @@ export default function Similar({ data, type = "movie" }) {
             <Typography variant="h4" color="textSecondary" paddingTop={2}>
               {similartvShow[type === "movie" ? 'title' : 'name']}
             </Typography>
-            <Typography variant="subtitle1" color="white" paddingTop={2}>{dayjs(similartvShow.first_air_date).format("MMMM DD, YYYY")}</Typography>
+            <Typography variant="subtitle1" color="white" paddingTop={2}>
+              {dayjs(similartvShow[type === "movie" ? 'release_date' : 'first_air_date']).format("MMMM DD, YYYY")}
+            </Typography>
             <Typography variant="subtitle2" color="white" paddingTop={2}>
               <GridContainer>
                 <CircularProgress
