@@ -12,6 +12,7 @@ import { setMovieGenres } from "reduxToolkit/slices/movies";
 import { ArrowUpward } from "@mui/icons-material";
 import { getTvGenres } from "services/api";
 import { setTvGenres } from "reduxToolkit/slices/series";
+import Footer from "components/Footer";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,12 +22,13 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
+    paddingBottom: '70px'
   },
   scrollTop: {
     position: 'fixed',
     right: '30px',
     bottom: '15px',
-    zIndex: 200,
+    zIndex: 201,
     backgroundColor: 'white',
     '&:hover': {
       backgroundColor: '#252E42',
@@ -73,6 +75,7 @@ export default function MainLayout({ route }) {
         <IconButton color="primary" aria-label="scroll to top" className={classes.scrollTop} onClick={scrollToTopHandler}>
           <ArrowUpward />
         </IconButton>
+        <Footer />
       </main>
     </div>
   );
