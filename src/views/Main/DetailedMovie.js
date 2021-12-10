@@ -89,7 +89,11 @@ const DetailedMovie = () => {
       <Helmet><title>Movie {movie ? `- ${movie.title}` : ''}</title></Helmet>
       {
         loading || !movie
-          ? <GridContainer><Skeleton height={600} style={{ transform: 'unset' }} /></GridContainer>
+          ? <GridContainer justifyContent="center" alignItems="center">
+            <GridItem style={{ width: '100%' }} padding={0}>
+              <Skeleton style={{ transform: 'unset', height: '100vh' }} />
+            </GridItem>
+          </GridContainer>
           : <GridContainer>
             <GridItem padding={0} className={classes.headerImage}>
               <ShadowedCardWithParallax

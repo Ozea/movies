@@ -88,7 +88,11 @@ const DetailedTvShow = () => {
       <Helmet><title>TV {tvShow ? `- ${tvShow.name}` : ''}</title></Helmet>
       {
         loading || !tvShow
-          ? <GridContainer><Skeleton height={600} style={{ transform: 'unset' }} /></GridContainer>
+          ? <GridContainer justifyContent="center" alignItems="center">
+            <GridItem style={{ width: '100%' }} padding={0}>
+              <Skeleton style={{ transform: 'unset', height: '100vh' }} />
+            </GridItem>
+          </GridContainer>
           : <GridContainer>
             <GridItem padding={0} className={classes.headerImage}>
               <ShadowedCardWithParallax
