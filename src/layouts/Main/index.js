@@ -8,11 +8,13 @@ import { Sidebar, TopBar } from "components";
 import { renderRoutes } from "react-router-config";
 import { getMovieGenres } from "services/api";
 import { useDispatch, useSelector } from "react-redux";
-import { setMovieGenres } from "reduxToolkit/slices/movies";
+import { setMovieGenres, initFavoriteMovies } from "reduxToolkit/slices/movies";
 import { ArrowUpward } from "@mui/icons-material";
 import { getTvGenres } from "services/api";
 import { setTvGenres } from "reduxToolkit/slices/series";
 import Footer from "components/Footer";
+import { getLSValue } from "utils/localStorage";
+import { initFavoriteSeries } from "reduxToolkit/slices/series";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,6 +45,19 @@ export default function MainLayout({ route }) {
   const classes = useStyles();
   const { genres } = useSelector(state => state.movies);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const savedFavoriteMovies = getLSValue("favoriteMovies");
+    const savedFavoriteSeries = getLSValue("favoriteSeries");
+
+    if (savedFavoriteMovies) {
+      dispatch(initFavoriteMovies(JSON.parse(savedFavoriteMovies)));
+    }
+
+    if (savedFavoriteSeries) {
+      dispatch(initFavoriteSeries(JSON.parse(savedFavoriteSeries)));
+    }
+  }, []);
 
   useEffect(() => {
     if (!Object.values(genres).length) {

@@ -37,8 +37,6 @@ const TvShowsByGenre = props => {
     }
   }, [id, seriesByGenre]);
 
-  useEffect(() => console.log(loading), [loading]);
-
   const fetchSeries = page => {
     return getTvShowsByGenre(id, page)
       .then(res => {

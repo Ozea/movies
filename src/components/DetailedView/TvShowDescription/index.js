@@ -1,22 +1,28 @@
 import React from 'react';
-import { List, ListItem, ListItemText, Paper, Typography } from '@mui/material';
+import { IconButton, List, ListItem, ListItemText, Paper, Tooltip, Typography } from '@mui/material';
 import { GridItem } from 'components';
 import { GridContainer } from 'components';
 import CustomButton from 'components/CustomButton';
 import dayjs from 'dayjs';
 import { useHistory } from 'react-router';
 import { formatMovieUrl } from 'utils/movies';
-import { ArrowBack, Movie, PlayArrow } from '@mui/icons-material';
+import { ArrowBack, Bookmark, Favorite, Movie } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import { tvShowDescriptionStyles } from 'assets/jss/tvShowDescriptionStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFavoriteSerie, setFavoriteSerie, removeWatchLaterSerie, setWatchLaterSeries } from 'reduxToolkit/slices/series';
 
 const useStyles = makeStyles(theme => ({
   ...tvShowDescriptionStyles(theme)
 }));
 
 export default function TvShowDescription({ tvShow, openTrailer }) {
+  const { favorites, watchLater } = useSelector(state => state.series);
+  const isFavorite = favorites.find(fav => fav === tvShow.id);
+  const isWatchLater = watchLater.find(later => later === tvShow.id);
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const renderProductionCompamnies = () => {
     return tvShow.production_companies.filter(item => item.logo_path).slice(0, 3).map(item =>
@@ -39,10 +45,38 @@ export default function TvShowDescription({ tvShow, openTrailer }) {
     openTrailer();
   }
 
+  const favoriteHandler = () => {
+    if (isFavorite) {
+      return dispatch(removeFavoriteSerie(tvShow.id));
+    }
+
+    dispatch(setFavoriteSerie(tvShow.id));
+  }
+
+  const watchLaterHandler = () => {
+    if (isWatchLater) {
+      return dispatch(removeWatchLaterSerie(tvShow.id));
+    }
+
+    dispatch(setWatchLaterSeries(tvShow.id));
+  }
+
   return (
     <Paper className={classes.movieDetails}>
       <GridContainer direction="column" justifyContent="start" alignItems="start">
-        <Typography variant="h1" color="textSecondary" className={classes.text} style={{ marginBottom: '.75rem' }}>{tvShow.name}</Typography>
+        <Typography variant="h1" color="textSecondary" className={classes.text} style={{ marginBottom: '.75rem' }}>
+          {tvShow.name}
+          <Tooltip title="Add to favorite" placement="top">
+            <IconButton sx={{ ml: 1.5 }} color={isFavorite ? "warning" : "primary"} onClick={favoriteHandler}>
+              <Favorite />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Watch later" placement="top">
+            <IconButton sx={{ ml: 1.5 }} color={isWatchLater ? "warning" : "primary"} onClick={watchLaterHandler}>
+              <Bookmark />
+            </IconButton>
+          </Tooltip>
+        </Typography>
         <Typography variant="h4" color="textSecondary" fontStyle="italic" className={classes.text}>
           {tvShow.tagline ? `"${tvShow.tagline}"` : ''}
         </Typography>
@@ -58,8 +92,6 @@ export default function TvShowDescription({ tvShow, openTrailer }) {
           ))}
         </List>
         <Typography variant="subtitle1" color="secondary.dark" className={classes.text}><i>{tvShow.overview}</i></Typography>
-        <Typography variant="subtitle2" color="secondary.dark" className={classes.text}>
-        </Typography>
         <GridContainer flexWrap="wrap">
           <GridItem padding={0}><Typography variant="h4" color="secondary.dark" className={classes.text}><b>Cast</b></Typography></GridItem>
           <GridContainer>{renderCastNames()}</GridContainer>
@@ -71,7 +103,6 @@ export default function TvShowDescription({ tvShow, openTrailer }) {
       </GridContainer>
       <GridContainer marginTop={4}>
         <CustomButton onClick={() => history.goBack()} title="Back" icon={ArrowBack} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
-        <CustomButton title="Play" icon={PlayArrow} onClick={openTrailerHandler} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
         <CustomButton title="Trailer" icon={Movie} onClick={openTrailerHandler} buttonClassName={classes.button} text={{ color: 'secondary.dark' }} />
       </GridContainer>
     </Paper>

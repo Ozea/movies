@@ -44,7 +44,7 @@ export const movieDescriptionStyles = theme => ({
   imgWrapper: {
     width: '100px',
     height: 'auto',
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(3)
   },
   prodCompLogo: {
     width: '100%',
