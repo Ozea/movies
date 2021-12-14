@@ -18,8 +18,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function TvShowDescription({ tvShow, openTrailer }) {
   const { favorites, watchLater } = useSelector(state => state.series);
-  const isFavorite = favorites.find(fav => fav === tvShow.id);
-  const isWatchLater = watchLater.find(later => later === tvShow.id);
+  const isFavorite = favorites.find(fav => fav.id === tvShow.id);
+  const isWatchLater = watchLater.find(later => later.id === tvShow.id);
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -50,7 +50,8 @@ export default function TvShowDescription({ tvShow, openTrailer }) {
       return dispatch(removeFavoriteSerie(tvShow.id));
     }
 
-    dispatch(setFavoriteSerie(tvShow.id));
+    const { name, release_date, vote_average, poster_path, id } = tvShow;
+    dispatch(setFavoriteSerie({ id, name, release_date, vote_average, poster_path }));
   }
 
   const watchLaterHandler = () => {
@@ -58,7 +59,8 @@ export default function TvShowDescription({ tvShow, openTrailer }) {
       return dispatch(removeWatchLaterSerie(tvShow.id));
     }
 
-    dispatch(setWatchLaterSeries(tvShow.id));
+    const { name, release_date, vote_average, poster_path, id } = tvShow;
+    dispatch(setWatchLaterSeries({ id, name, release_date, vote_average, poster_path }));
   }
 
   return (

@@ -19,8 +19,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function MovieDescription({ movie, openTrailer }) {
   const { favorites, watchLater } = useSelector(state => state.movies);
-  const isFavorite = favorites.find(fav => fav === movie.id);
-  const isWatchLater = watchLater.find(later => later === movie.id);
+  const isFavorite = favorites.find(fav => fav.id === movie.id);
+  const isWatchLater = watchLater.find(later => later.id === movie.id);
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -57,7 +57,8 @@ export default function MovieDescription({ movie, openTrailer }) {
       return dispatch(removeFavoriteMovie(movie.id));
     }
 
-    dispatch(setFavoriteMovie(movie.id));
+    const { title, release_date, vote_average, poster_path, id } = movie;
+    dispatch(setFavoriteMovie({ id, title, release_date, vote_average, poster_path }));
   }
 
   const watchLaterHandler = () => {
@@ -65,7 +66,8 @@ export default function MovieDescription({ movie, openTrailer }) {
       return dispatch(removeWatchLaterMovie(movie.id));
     }
 
-    dispatch(setWatchLaterMovie(movie.id));
+    const { title, release_date, vote_average, poster_path, id } = movie;
+    dispatch(setWatchLaterMovie({ id, title, release_date, vote_average, poster_path }));
   }
 
   return (

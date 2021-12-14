@@ -56,6 +56,12 @@ export default function Popular() {
   }
 
   const onChange = (event, val) => {
+    if (val === 0) {
+      history.push('/popular?list=movies');
+    } else {
+      history.push('/popular?list=tv');
+    }
+
     setListing(val);
   }
 

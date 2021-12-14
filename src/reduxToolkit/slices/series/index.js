@@ -4,7 +4,7 @@ import { setLSValue } from 'utils/localStorage';
 const initialState = {
   trendingSeries: [],
   popularSeries: [],
-  popularTvShowsPage: 0,
+  popularTvShowsPage: 1,
   seriesByGenre: {},
   favorites: [],
   watchLater: [],
@@ -19,23 +19,23 @@ export const seriesSlice = createSlice({
       state.trendingSeries = action.payload;
     },
     setPopularSeries: (state, action) => {
-      state.popularSeries = action.payload;
+      state.popularSeries = [...state.popularSeries, ...action.payload];
     },
     incrementPopularTvShowsPage: (state, action) => {
-      state.popularMoviesPage += action.payload;
+      state.popularTvShowsPage += action.payload;
     },
     setFavoriteSerie: (state, action) => {
       const updatedArray = [...state.favorites, action.payload];
       state.favorites = updatedArray;
       setLSValue("favoriteSeries", JSON.stringify(updatedArray));
     },
-    setWatchLaterSeries: (state, action) => {
-      state.watchLater = [...state.watchLater, action.payload];
-    },
     removeFavoriteSerie: (state, action) => {
-      const updatedArray = state.favorites.filter(fav => fav !== action.payload);
+      const updatedArray = state.favorites.filter(fav => fav.id !== action.payload);
       state.favorites = updatedArray;
       setLSValue("favoriteSeries", JSON.stringify(updatedArray));
+    },
+    setWatchLaterSeries: (state, action) => {
+      state.watchLater = [...state.watchLater, action.payload];
     },
     initFavoriteSeries: (state, action) => {
       state.favorites = action.payload;

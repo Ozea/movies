@@ -3,10 +3,11 @@ import { setLSValue } from 'utils/localStorage';
 
 const initialState = {
   popularMovies: [],
-  popularMoviesPage: 0,
+  popularMoviesPage: 1,
   trendingMovies: [],
   movieDetails: [],
   moviesByGenre: {},
+  moviesByGenrePage: 1,
   favorites: [],
   watchLater: [],
   genres: []
@@ -20,7 +21,7 @@ export const moviesSlice = createSlice({
       state.trendingMovies = action.payload;
     },
     setPopularMovies: (state, action) => {
-      state.popularMovies = action.payload;
+      state.popularMovies = [...state.popularMovies, ...action.payload];
     },
     incrementPopularMoviesPage: (state, action) => {
       state.popularMoviesPage += action.payload;
@@ -33,16 +34,16 @@ export const moviesSlice = createSlice({
       state.favorites = updatedArray;
       setLSValue("favoriteMovies", JSON.stringify(updatedArray));
     },
+    removeFavoriteMovie: (state, action) => {
+      const updatedArray = state.favorites.filter(fav => fav.id !== action.payload);
+      state.favorites = updatedArray;
+      setLSValue("favoriteMovies", JSON.stringify(updatedArray));
+    },
     initWatchLaterMovies: (state, action) => {
       state.watchLater = action.payload;
     },
     setWatchLaterMovie: (state, action) => {
       state.watchLater = [...state.watchLater, action.payload];
-    },
-    removeFavoriteMovie: (state, action) => {
-      const updatedArray = state.favorites.filter(fav => fav !== action.payload);
-      state.favorites = updatedArray;
-      setLSValue("favoriteMovies", JSON.stringify(updatedArray));
     },
     removeWatchLaterMovie: (state, action) => {
       state.watchLater = state.watchLater.filter(later => later !== action.payload);
