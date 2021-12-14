@@ -19,6 +19,15 @@ export const getPopularTvShows = page => {
   });
 }
 
+export const getUpcomingMovies = page => {
+  return instance.get('/movie/upcoming', {
+    params: {
+      language: 'us',
+      page
+    }
+  });
+}
+
 export const getPopularMovies = (page = 1) => {
   return instance.get('/movie/popular', {
     params: {

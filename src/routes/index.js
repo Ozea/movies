@@ -83,6 +83,11 @@ export const routes = [
         component: lazy(() => import('views/Main/Popular'))
       },
       {
+        path: '/upcoming',
+        exact: true,
+        component: lazy(() => import('views/Main/Upcoming'))
+      },
+      {
         component: () => <Redirect to="/errors/404" />
       }
     ]
