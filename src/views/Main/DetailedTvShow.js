@@ -38,6 +38,8 @@ const DetailedTvShow = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     setLoading(true);
     getTvShowById(id)
       .then(res => {
