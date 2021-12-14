@@ -19,6 +19,15 @@ export const getPopularTvShows = page => {
   });
 }
 
+export const getNowPlayingMovies = page => {
+  return instance.get('/movie/now_playing', {
+    params: {
+      language: 'us',
+      page
+    }
+  });
+}
+
 export const getUpcomingMovies = page => {
   return instance.get('/movie/upcoming', {
     params: {
@@ -56,15 +65,6 @@ export const getTvShowsByGenre = (genreId, page = 1) => {
       page,
       with_genres: genreId,
       with_watch_monetization_types: 'flatrate'
-    }
-  });
-}
-
-export const getNowPlayingMovies = () => {
-  return instance.get('/movie/now_playing', {
-    params: {
-      language: 'us',
-      page: 1
     }
   });
 }

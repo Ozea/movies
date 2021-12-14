@@ -6,6 +6,8 @@ const initialState = {
   popularMoviesPage: 1,
   upcoming: [],
   upcomingPage: 1,
+  nowPlaying: [],
+  nowPlayingPage: 1,
   trendingMovies: [],
   movieDetails: [],
   moviesByGenre: {},
@@ -30,6 +32,12 @@ export const moviesSlice = createSlice({
     },
     incrementUpcomingPage: (state, action) => {
       state.upcomingPage += action.payload;
+    },
+    setNowPlaying: (state, action) => {
+      state.nowPlaying = [...state.nowPlaying, ...action.payload];
+    },
+    incrementNowPlayingPage: (state, action) => {
+      state.nowPlayingPage += action.payload;
     },
     incrementPopularMoviesPage: (state, action) => {
       state.popularMoviesPage += action.payload;
@@ -81,6 +89,8 @@ export const {
   setMovieGenres,
   setUpcoming,
   incrementUpcomingPage,
+  setNowPlaying,
+  incrementNowPlayingPage,
   setWatchLaterMovie,
   setFavoriteMovie,
   removeFavoriteMovie,

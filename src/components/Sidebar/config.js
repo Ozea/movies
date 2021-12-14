@@ -34,8 +34,8 @@ const sidebarConfig = [
         icon: Hot
       },
       {
-        title: 'New',
-        href: '/new',
+        title: 'Now playing',
+        href: '/now-playing',
         icon: TvShow
       }
     ]
