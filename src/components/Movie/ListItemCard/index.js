@@ -93,7 +93,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ListIemCard = ({ data, globalGenres, type = "movie" }) => {
-  console.log(type);
   const classes = useStyles();
 
   return (

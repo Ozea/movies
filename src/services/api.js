@@ -10,12 +10,22 @@ export const getTrendingTvShows = () => {
   return instance.get('/trending/tv/week');
 }
 
-export const getPopularTvShows = () => {
-  return instance.get('/tv/popular');
+export const getPopularTvShows = page => {
+  return instance.get('/tv/popular', {
+    params: {
+      language: 'us',
+      page
+    }
+  });
 }
 
-export const getPopularMovies = () => {
-  return instance.get('/movie/popular');
+export const getPopularMovies = (page = 1) => {
+  return instance.get('/movie/popular', {
+    params: {
+      language: 'us',
+      page
+    }
+  });
 }
 
 export const getTvShowById = id => {

@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     marginRight: '3rem',
     textDecoration: 'none',
-    overflow: 'hiddden',
+    overflow: 'hidden',
     "& > div:nth-of-type(1)": {
       transition: theme.palette.transition
     },
@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Similar({ data, type = "movie" }) {
   const classes = useStyles();
-  console.log(data);
 
   return (
     <GridContainer justifyContent="center">

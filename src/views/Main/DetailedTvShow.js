@@ -47,6 +47,7 @@ const DetailedTvShow = () => {
         }
         setTvShow(res.data);
         setLoading(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       })
       .catch(err => {
         console.error(err);

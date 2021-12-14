@@ -47,7 +47,8 @@ const DetailedMovie = () => {
           setTrailer(trailer[0].key);
         }
         setMovie(res.data);
-        setLoading(false)
+        setLoading(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       })
       .catch(err => {
         console.error(err);
