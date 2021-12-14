@@ -88,6 +88,11 @@ export const routes = [
         component: lazy(() => import('views/Main/Upcoming'))
       },
       {
+        path: '/now-playing',
+        exact: true,
+        component: lazy(() => import('views/Main/NowPlaying'))
+      },
+      {
         component: () => <Redirect to="/errors/404" />
       }
     ]
