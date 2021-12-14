@@ -69,7 +69,9 @@ export default function Popular() {
     <>
       <Helmet><title>Popular {listing === 1 ? 'tv shows' : 'movies'}</title></Helmet>
       <GridContainer justifyContent="center" marginTop={3}>
-        <GridItem xs={12}><Typography variant='h2' align='center' marginBottom={1}>Popular</Typography></GridItem>
+        <GridItem xs={12}>
+          <Typography variant='h2' align='center' color="orange" marginBottom={1}>Popular</Typography>
+        </GridItem>
         <GridItem xs={12}>
           <Tabs
             classes={{

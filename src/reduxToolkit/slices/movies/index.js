@@ -4,6 +4,8 @@ import { setLSValue } from 'utils/localStorage';
 const initialState = {
   popularMovies: [],
   popularMoviesPage: 1,
+  upcoming: [],
+  upcomingPage: 1,
   trendingMovies: [],
   movieDetails: [],
   moviesByGenre: {},
@@ -22,6 +24,12 @@ export const moviesSlice = createSlice({
     },
     setPopularMovies: (state, action) => {
       state.popularMovies = [...state.popularMovies, ...action.payload];
+    },
+    setUpcoming: (state, action) => {
+      state.upcoming = [...state.upcoming, ...action.payload];
+    },
+    incrementUpcomingPage: (state, action) => {
+      state.upcomingPage += action.payload;
     },
     incrementPopularMoviesPage: (state, action) => {
       state.popularMoviesPage += action.payload;
@@ -71,6 +79,8 @@ export const {
   setMovieDetails,
   setMoviesByGenre,
   setMovieGenres,
+  setUpcoming,
+  incrementUpcomingPage,
   setWatchLaterMovie,
   setFavoriteMovie,
   removeFavoriteMovie,
