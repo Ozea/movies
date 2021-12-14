@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, Typography } from '@mui/material';
 import { GridContainer, GridItem } from 'components';
 import PopularMoviesListing from 'components/PopularMoviesListing';
 import PopularTvShowsListing from 'components/PopularTvShowsListing';
 import { makeStyles } from '@mui/styles';
 import { Helmet } from 'react-helmet';
+import QueryString from 'query-string';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,12 +24,33 @@ const useStyles = makeStyles(theme => ({
 
 export default function Popular() {
   const classes = useStyles();
-  const [listing, setListing] = useState(0);
+  const history = useHistory();
+  const [listing, setListing] = useState(null);
+
+  useEffect(() => {
+    const queryParams = QueryString.parse(history.location.search, { ignoreQueryPrefix: true });
+
+    if (queryParams.list) {
+      if (!['movie', 'tv'].includes(queryParams.list)) {
+        return initListing();
+      }
+
+      const value = queryParams.list === "movie" ? 0 : 1;
+      setListing(value);
+    } else {
+      initListing();
+    }
+  }, [history]);
+
+  const initListing = () => {
+    history.push('/popular?list=movie');
+    setListing(0);
+  }
 
   const renderListing = () => {
-    if (listing === 1) {
-      return <PopularTvShowsListing />;
-    }
+    if (listing === null) return;
+
+    if (listing === 1) return <PopularTvShowsListing />;
 
     return <PopularMoviesListing />;
   }
@@ -47,7 +70,7 @@ export default function Popular() {
               root: classes.root,
               indicator: classes.indicator
             }}
-            value={listing}
+            value={listing || 0}
             onChange={onChange}
             centered>
             {["Movies", "TV shows"].map(item => <Tab className={classes.tab} label={item} key={item} />)}
