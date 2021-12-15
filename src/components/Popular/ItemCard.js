@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none'
   },
   posterWrapper: {
+    position: 'relative',
     overflow: 'hidden',
     "& > $simmilarPoster": {
       transition: theme.palette.transition
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PopularItemCard({ data, type = "movie", isFavorite }) {
+export default function PopularItemCard({ data, type = "movie", isFavorite, isWatchLater }) {
   const classes = useStyles();
 
   return (

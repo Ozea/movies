@@ -15,6 +15,8 @@ import { setTvGenres } from "reduxToolkit/slices/series";
 import Footer from "components/Footer";
 import { getLSValue } from "utils/localStorage";
 import { initFavoriteSeries } from "reduxToolkit/slices/series";
+import { initWatchLaterMovies } from "reduxToolkit/slices/movies";
+import { initWatchLaterSeries } from "reduxToolkit/slices/series";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,6 +51,8 @@ export default function MainLayout({ route }) {
   useEffect(() => {
     const savedFavoriteMovies = getLSValue("favoriteMovies");
     const savedFavoriteSeries = getLSValue("favoriteSeries");
+    const watchLaterMovies = getLSValue("watchLaterMovies");
+    const watchLaterSeries = getLSValue("watchLaterSeries");
 
     if (savedFavoriteMovies) {
       dispatch(initFavoriteMovies(JSON.parse(savedFavoriteMovies)));
@@ -56,6 +60,14 @@ export default function MainLayout({ route }) {
 
     if (savedFavoriteSeries) {
       dispatch(initFavoriteSeries(JSON.parse(savedFavoriteSeries)));
+    }
+    
+    if (watchLaterMovies) {
+      dispatch(initWatchLaterMovies(JSON.parse(watchLaterMovies)));
+    }
+    
+    if (watchLaterSeries) {
+      dispatch(initWatchLaterSeries(JSON.parse(watchLaterSeries)));
     }
   }, []);
 
