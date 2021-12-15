@@ -50,8 +50,8 @@ export default function TvShowDescription({ tvShow, openTrailer }) {
       return dispatch(removeFavoriteSerie(tvShow.id));
     }
 
-    const { name, release_date, vote_average, poster_path, id } = tvShow;
-    dispatch(setFavoriteSerie({ id, name, release_date, vote_average, poster_path }));
+    const { name, first_air_date, vote_average, poster_path, id } = tvShow;
+    dispatch(setFavoriteSerie({ id, name, first_air_date, vote_average, poster_path }));
   }
 
   const watchLaterHandler = () => {
@@ -59,8 +59,8 @@ export default function TvShowDescription({ tvShow, openTrailer }) {
       return dispatch(removeWatchLaterSerie(tvShow.id));
     }
 
-    const { name, release_date, vote_average, poster_path, id } = tvShow;
-    dispatch(setWatchLaterSeries({ id, name, release_date, vote_average, poster_path }));
+    const { name, first_air_date, vote_average, poster_path, id } = tvShow;
+    dispatch(setWatchLaterSeries({ id, name, first_air_date, vote_average, poster_path }));
   }
 
   return (
@@ -86,7 +86,7 @@ export default function TvShowDescription({ tvShow, openTrailer }) {
           {tvShow.genres.map((item, i) => item.name).join(', ')}
         </Typography>
         <List className={classes.list}>
-          {[dayjs(tvShow.release_date).format("MMMM DD, YYYY"), `${tvShow.vote_average} IMDB`, tvShow.status].map((item, index) => (
+          {[dayjs(tvShow.first_air_date).format("MMMM DD, YYYY"), `${tvShow.vote_average} IMDB`, tvShow.status].map((item, index) => (
             <ListItem key={index}>
               <div className={classes.bullet}></div>
               <ListItemText primary={item} />
