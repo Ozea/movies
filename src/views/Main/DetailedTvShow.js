@@ -43,7 +43,9 @@ const DetailedTvShow = () => {
       .then(res => {
         if (res.data.videos.results.length) {
           const trailer = res.data.videos.results.filter(item => item.site === 'YouTube' && item.type === "Trailer");
-          setTrailer(trailer[0].key);
+          if (trailer.length) {
+            setTrailer(trailer[0].key);
+          }
         }
         setTvShow(res.data);
         setLoading(false);

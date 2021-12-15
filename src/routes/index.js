@@ -93,6 +93,11 @@ export const routes = [
         component: lazy(() => import('views/Main/NowPlaying'))
       },
       {
+        path: '/favorites',
+        exact: true,
+        component: lazy(() => import('views/Main/Favorites'))
+      },
+      {
         component: () => <Redirect to="/errors/404" />
       }
     ]
