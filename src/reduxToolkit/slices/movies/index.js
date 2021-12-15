@@ -59,10 +59,14 @@ export const moviesSlice = createSlice({
       state.watchLater = action.payload;
     },
     setWatchLaterMovie: (state, action) => {
-      state.watchLater = [...state.watchLater, action.payload];
+      const updatedArray = [...state.watchLater, action.payload];
+      state.watchLater = updatedArray;
+      setLSValue("watchLaterMovies", JSON.stringify(updatedArray));
     },
     removeWatchLaterMovie: (state, action) => {
-      state.watchLater = state.watchLater.filter(later => later !== action.payload);
+      const updatedArray = state.watchLater.filter(wl => wl.id !== action.payload);
+      state.watchLater = updatedArray;
+      setLSValue("watchLaterMovies", JSON.stringify(updatedArray));
     },
     setMovieDetails: (state, action) => {
       state.movieDetails = [...state.movieDetails, action.payload];

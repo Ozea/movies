@@ -34,17 +34,21 @@ export const seriesSlice = createSlice({
       state.favorites = updatedArray;
       setLSValue("favoriteSeries", JSON.stringify(updatedArray));
     },
-    setWatchLaterSeries: (state, action) => {
-      state.watchLater = [...state.watchLater, action.payload];
-    },
     initFavoriteSeries: (state, action) => {
       state.favorites = action.payload;
     },
-    initWatchLaterSeries: (state, action) => {
-      state.watchLater = action.payload;
+    setWatchLaterSeries: (state, action) => {
+      const updatedArray = [...state.watchLater, action.payload];
+      state.watchLater = updatedArray;
+      setLSValue("watchLaterSeries", JSON.stringify(updatedArray));
     },
     removeWatchLaterSerie: (state, action) => {
-      state.watchLater = state.watchLater.filter(later => later !== action.payload);
+      const updatedArray = state.watchLater.filter(wl => wl.id !== action.payload);
+      state.watchLater = updatedArray;
+      setLSValue("watchLaterSeries", JSON.stringify(updatedArray));
+    },
+    initWatchLaterSeries: (state, action) => {
+      state.watchLater = action.payload;
     },
     setSeriesByGenre: (state, action) => {
       const { genre, series } = action.payload;

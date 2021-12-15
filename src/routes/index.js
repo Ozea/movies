@@ -98,6 +98,11 @@ export const routes = [
         component: lazy(() => import('views/Main/Favorites'))
       },
       {
+        path: '/watch-later',
+        exact: true,
+        component: lazy(() => import('views/Main/WatchLater'))
+      },
+      {
         component: () => <Redirect to="/errors/404" />
       }
     ]
