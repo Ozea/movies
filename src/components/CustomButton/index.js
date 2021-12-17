@@ -34,6 +34,7 @@ const CustomButton = ({ title, buttonClassName, ...rest }) => {
 
   return (<Button className={classNames(classes.buttonLeaf, buttonClassName)} startIcon={rest.icon ? <rest.icon /> : null} {...rest}>
     <Typography {...rest.text}>{title}</Typography>
+    {rest.children}
   </Button>);
 }
 

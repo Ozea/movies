@@ -50,7 +50,7 @@ export const getTvShowById = id => {
   return instance.get(`/tv/${id}`, {
     params: {
       language: 'en-US',
-      append_to_response: 'videos,images,credits,similar'
+      append_to_response: 'videos,images,credits,similar,reviews'
     }
   });
 }
@@ -72,7 +72,7 @@ export const getTvShowsByGenre = (genreId, page = 1) => {
 export const getMovieDetails = id => {
   return instance.get(`/movie/${id}`, {
     params: {
-      append_to_response: 'videos,images,credits,similar'
+      append_to_response: 'videos,images,credits,similar,reviews'
     }
   });
 }

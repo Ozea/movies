@@ -145,7 +145,7 @@ export default function Movies() {
 
               <GridContainer marginTop={5}>
                 <GridItem padding={0} className={classes.gridItem}>
-                  <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Popular now</Typography>
+                  <Typography variant="h2" color="textPrimary" className={classes.catergoryName} style={{ marginBottom: '3rem' }}>Popular now</Typography>
                   <Carousel indicatorContainerProps={{ style: { marginTop: '25px' } }}>
                     {renderPopularMovies()}
                   </Carousel>
