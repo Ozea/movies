@@ -15,6 +15,8 @@ import { convertArrayIntoArrayOfArrays } from 'utils/movies';
 import { detailedTvShowStyles } from 'assets/jss/detailedTvShowStyles';
 import TvShowDescription from 'components/DetailedView/TvShowDescription';
 import Seasons from 'components/DetailedView/Seasons';
+import classNames from 'classnames';
+import Review from 'components/Review';
 
 const useStyles = makeStyles(theme => ({
   ...detailedTvShowStyles(theme),
@@ -26,6 +28,9 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     width: '75%',
     zIndex: '9999'
+  },
+  reviewsContainer: {
+    backgroundColor: theme.palette.secondary.light
   }
 }));
 
@@ -76,6 +81,10 @@ const DetailedTvShow = () => {
     const originalCastArray = tvShow.credits.cast.filter(item => item.profile_path);
     const cast = convertArrayIntoArrayOfArrays(originalCastArray, originalCastArray.length, 5);
     return cast.map((bunchOfActors, i) => <Cast data={bunchOfActors} key={i} />);
+  }
+
+  const renderReviews = () => {
+    return tvShow.reviews.results.map(review => <Review data={review} key={review.id} />);
   }
 
   const opneTrailerHandler = () => {
@@ -155,6 +164,19 @@ const DetailedTvShow = () => {
                 {renderSimilarMovies()}
               </Carousel>
             </GridItem>
+
+            {!!tvShow.reviews.results.length &&
+              <GridItem padding={0} className={classNames(classes.gridItem, classes.reviewsContainer)}>
+                <Typography
+                  variant="h2"
+                  color="textPrimary"
+                  className={classes.contentHeading}
+                  align="left"
+                  marginBottom={6}>
+                  Reviews
+                </Typography>
+                {renderReviews()}
+              </GridItem>}
 
             <Modal
               aria-labelledby="transition-modal-title"

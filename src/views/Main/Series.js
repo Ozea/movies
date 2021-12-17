@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   catergoryName: {
     fontWeight: 'bold',
-    marginBottom: '3rem'
+    marginBottom: '1rem'
   },
   gridItem: {
     width: '100%',
@@ -115,7 +115,7 @@ export default function Series() {
               </GridItem>
 
               <GridContainer style={{ marginTop: '1.5rem' }}>
-                <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Popular now</Typography>
+                <Typography variant="h2" color="textPrimary" className={classes.catergoryName} style={{ marginBottom: '3rem' }}>Popular now</Typography>
 
                 <GridContainer style={{ marginTop: '1.5rem' }}>
                   <GridItem xs={3}><Skeleton height={250} style={{ transform: 'unset' }} /></GridItem>
@@ -159,7 +159,9 @@ export default function Series() {
 
               <GridContainer marginTop={5}>
                 <GridItem padding={0} className={classes.gridItem}>
-                  <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Popular now</Typography>
+                  <Typography variant="h2" color="textPrimary" className={classes.catergoryName} style={{ marginBottom: '3rem' }}>
+                    Popular now
+                  </Typography>
                   <Carousel indicatorContainerProps={{ style: { marginTop: '25px' } }}>
                     {renderPopularTvShows()}
                   </Carousel>

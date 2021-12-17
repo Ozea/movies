@@ -16,6 +16,8 @@ import Similar from 'components/DetailedView/Similar';
 import Cast from 'components/DetailedView/Cast';
 import MovieDescription from 'components/DetailedView/MovieDescription';
 import { detailedMovieStyles } from 'assets/jss/detailedMovieStyles';
+import Review from 'components/Review';
+import classNames from 'classnames';
 
 const useStyles = makeStyles(theme => ({
   ...detailedMovieStyles(theme),
@@ -27,6 +29,9 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     width: '75%',
     zIndex: '9999'
+  },
+  reviewsContainer: {
+    backgroundColor: theme.palette.secondary.light
   }
 }));
 
@@ -75,6 +80,10 @@ const DetailedMovie = () => {
     const originalCastArray = movie.credits.cast.filter(item => item.profile_path);
     const cast = convertArrayIntoArrayOfArrays(originalCastArray, originalCastArray.length, 5);
     return cast.map((bunchOfActors, i) => <Cast data={bunchOfActors} key={i} />)
+  }
+
+  const renderReviews = () => {
+    return movie.reviews.results.map(review => <Review data={review} key={review.id} />);
   }
 
   const opneTrailerHandler = () => {
@@ -152,6 +161,19 @@ const DetailedMovie = () => {
                 {renderSimilarMovies()}
               </Carousel>
             </GridItem>
+
+            {!!movie.reviews.results.length &&
+              <GridItem padding={0} className={classNames(classes.gridItem, classes.reviewsContainer)}>
+                <Typography
+                  variant="h2"
+                  color="textPrimary"
+                  className={classes.contentHeading}
+                  align="left"
+                  marginBottom={6}>
+                  Reviews
+                </Typography>
+                {renderReviews()}
+              </GridItem>}
 
             <Modal
               aria-labelledby="transition-modal-title"
