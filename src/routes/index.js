@@ -48,6 +48,11 @@ export const routes = [
     component: MainLayout,
     routes: [
       {
+        path: '/dashboard',
+        exact: true,
+        component: lazy(() => import('views/Main/Dashboard'))
+      },
+      {
         path: '/movies',
         exact: true,
         component: lazy(() => import('views/Main/Movies'))
