@@ -1,6 +1,6 @@
 import { Redirect } from "react-router-dom";
 import { lazy } from '@loadable/component';
-import { MainLayout, AuthLayout, ErrorsLayout } from 'layouts';
+import { MainLayout, AuthLayout, ErrorsLayout, PricingLayout } from 'layouts';
 
 export const routes = [
   {
@@ -40,6 +40,17 @@ export const routes = [
         path: '/errors/404',
         exact: true,
         component: lazy(() => import('views/Errors/Error404'))
+      }
+    ]
+  },
+  {
+    path: '/pricing',
+    component: PricingLayout,
+    routes: [
+      {
+        path: '/pricing',
+        exact: true,
+        component: lazy(() => import('views/Pricing'))
       }
     ]
   },
