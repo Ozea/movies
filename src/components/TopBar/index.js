@@ -99,7 +99,13 @@ export default function TopBar(props) {
   };
 
   const navigateToDashboard = () => {
+    setOpen(false);
     history.push('/dashboard');
+  }
+
+  const logout = () => {
+    setOpen(false);
+    history.push('/auth/login');
   }
 
   return (
@@ -144,7 +150,7 @@ export default function TopBar(props) {
                   <Button
                     variant="outlined"
                     startIcon={<Logout />}
-                    onClick={() => history.push('/auth/login')}
+                    onClick={logout}
                     sx={{ textTransform: 'initial' }}>Log out</Button>
                 </Paper>
               </Fade>
