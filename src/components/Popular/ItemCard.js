@@ -39,6 +39,18 @@ const useStyles = makeStyles(theme => ({
 export default function PopularItemCard({ data, type = "movie", isFavorite, isWatchLater }) {
   const classes = useStyles();
 
+  const renderDate = () => {
+    if (type === "movie") {
+      let date = data['release_date'] || new Date();
+      return dayjs(date).format("MMMM DD, YYYY");
+    } else if (type === "tv") {
+      let date = data['first_air_date'] || new Date();
+      return dayjs(date).format("MMMM DD, YYYY");
+    } else {
+      return dayjs().format("MMMM DD, YYYY");
+    }
+  }
+
   return (
     <Link to={`/${type === "movie" ? "movie" : "tv"}/${data.id}`} className={classes.simmilarLink} key={data.id}>
       {isFavorite && <Ribbon>Favorite</Ribbon>}
@@ -50,7 +62,7 @@ export default function PopularItemCard({ data, type = "movie", isFavorite, isWa
       <GridContainer direction="column" paddingTop={2} paddingBottom={2} paddingLeft={1}>
         <Typography variant="h4" color="textSecondary" paddingTop={2}>{data[type === "movie" ? 'title' : 'name']}</Typography>
         <Typography variant="subtitle1" color="white" paddingTop={2} sx={{ pt: .5 }}>
-          {dayjs(data[type === "movie" ? 'release_date' : 'first_air_date']).format("MMMM DD, YYYY")}
+          {renderDate()}
         </Typography>
         <Typography variant="subtitle2" color="white" paddingTop={2} sx={{ pt: .5 }}>
           <Rating name="read-only" value={Math.floor(data.vote_average) / 2 || 1} readOnly />

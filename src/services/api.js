@@ -93,6 +93,39 @@ export const getTvGenres = () => {
   });
 }
 
+export const searchMovies = (query, page) => {
+  return instance.get('/search/movie', {
+    params: {
+      language: 'en-US',
+      query,
+      page,
+      include_adult: 'false'
+    }
+  });
+}
+
+export const searchTv = (query, page) => {
+  return instance.get('/search/tv', {
+    params: {
+      language: 'en-US',
+      query,
+      page,
+      include_adult: 'false'
+    }
+  });
+}
+
+export const searchPerson = (query, page) => {
+  return instance.get('/search/person', {
+    params: {
+      language: 'en-US',
+      query,
+      page,
+      include_adult: 'false'
+    }
+  });
+}
+
 export const getMoviesByGenre = (genreId, page = 1) => {
   return instance.get(`/discover/movie`, {
     params: {

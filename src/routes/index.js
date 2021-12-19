@@ -119,6 +119,11 @@ export const routes = [
         component: lazy(() => import('views/Main/WatchLater'))
       },
       {
+        path: '/search',
+        exact: true,
+        component: lazy(() => import('views/Main/Search'))
+      },
+      {
         component: () => <Redirect to="/errors/404" />
       }
     ]

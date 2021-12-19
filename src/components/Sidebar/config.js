@@ -1,5 +1,5 @@
 // Material icons
-import { Theaters, MovieFilter } from "@mui/icons-material";
+import { Theaters, Payment } from "@mui/icons-material";
 import { ReactComponent as MovieIcon } from 'assets/movie-icon.svg';
 import { ReactComponent as Hot } from 'assets/hot.svg';
 import { ReactComponent as TvShow } from 'assets/tv-show.svg';
@@ -54,6 +54,15 @@ const sidebarConfig = [
       }
     ]
   },
+  {
+    items: [
+      {
+        title: 'Pricing plans',
+        href: '/pricing',
+        icon: Payment
+      }
+    ]
+  }
 ];
 
 export {
