@@ -90,6 +90,7 @@ const useStyles = makeStyles(theme => ({
 export default function TopBar(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = React.useState(false);
+  const [search, setSearch] = React.useState(null);
   const history = useHistory();
   const classes = useStyles();
 
@@ -108,22 +109,37 @@ export default function TopBar(props) {
     history.push('/auth/login');
   }
 
+  const onSearch = event => {
+    event.preventDefault();
+
+    if (search) {
+      history.push(`/search?list=movie&query=${search}`);
+    }
+  }
+
+  const onSearchChangeHandler = ({ target: { value } }) => {
+    setSearch(value);
+  }
+
   return (
     <AppBar position="fixed" className={classes.appBar} elevation={2}>
       <Toolbar className={classes.toolbar}>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <Search />
+        <form onSubmit={onSearch}>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <Search />
+            </div>
+            <InputBase
+              placeholder="Search by movie or tv show ..."
+              onChange={onSearchChangeHandler}
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
           </div>
-          <InputBase
-            placeholder="Search by movie, tv show or actor ..."
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </div>
+        </form>
         <div className={classes.grow} />
         <div className={classes.sectionDesktop}>
           <CustomButton title="Premium" icon={Crown} style={{ marginRight: '15px' }} />
