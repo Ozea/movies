@@ -98,6 +98,10 @@ export default function TopBar(props) {
     setOpen(prev => !prev);
   };
 
+  const navigateToDashboard = () => {
+    history.push('/dashboard');
+  }
+
   return (
     <AppBar position="fixed" className={classes.appBar} elevation={2}>
       <Toolbar className={classes.toolbar}>
@@ -131,6 +135,7 @@ export default function TopBar(props) {
               <Fade {...TransitionProps} timeout={350}>
                 <Paper sx={{ p: .75 }}>
                   <Button
+                    onClick={navigateToDashboard}
                     variant="contained"
                     startIcon={<AccountCircle />}
                     sx={{ textTransform: 'capitalize' }}
