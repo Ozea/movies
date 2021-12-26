@@ -148,7 +148,7 @@ export default function Series() {
                 <GridItem style={{ width: '100%' }}>
                   <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Trending</Typography>
                   <Carousel>
-                    {trendingSeries.map(serie =>
+                    {trendingSeries.slice(0, 15).map(serie =>
                       <ShadowedCard imageUrl={formatMovieUrl(serie.backdrop_path)} containerClassname={{ height: '650px', marginTop: '1rem' }} key={serie.id}>
                         <MovieDetails data={serie} type="tv" wrapperClassName={classes.detailsWrapper} />
                       </ShadowedCard>
