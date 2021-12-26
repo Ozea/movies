@@ -135,7 +135,7 @@ export default function Movies() {
               <GridItem style={{ width: '100%' }}>
                 <Typography variant="h2" color="textPrimary" className={classes.catergoryName}>Trending</Typography>
                 <Carousel>
-                  {popularMovies.map(movie =>
+                  {popularMovies.slice(0, 15).map(movie =>
                     <ShadowedCard imageUrl={formatMovieUrl(movie.backdrop_path)} containerClassname={{ height: '650px', marginTop: '1rem' }} key={movie.id}>
                       <MovieDetails data={movie} wrapperClassName={classes.detailsWrapper} />
                     </ShadowedCard>
