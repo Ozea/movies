@@ -1,2 +1,0 @@
-(this["webpackJsonpstarter-kit"]=this["webpackJsonpstarter-kit"]||[]).push([[24],{520:function(t,r,s){"use strict";s.r(r),s.d(r,"default",(function(){return e}));s(0);var n=s(2);function e(){return Object(n.jsx)("div",{children:"Forgot password!"})}}}]);
-//# sourceMappingURL=24.b5428744.chunk.js.map
