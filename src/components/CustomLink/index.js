@@ -1,10 +1,10 @@
-import { Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import { Link } from "react-router-dom";
-import classNames from 'classnames';
+import { Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
+import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 import React from 'react'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   buttonLeaf: {
     display: 'flex',
     padding: '5px 15px',
@@ -18,29 +18,34 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '5px',
     letterSpacing: 0,
     boxShadow: `0px 0px 5px -2px ${theme.palette.icon}`,
-    "&:hover": {
+    '&:hover': {
       background: `${theme.palette.icon}`,
-      "& p": {
+      '& p': {
         color: theme.palette.text.hover,
       },
-      "& svg, & svg path": {
-        fill: theme.palette.text.hover
-      }
+      '& svg, & svg path': {
+        fill: theme.palette.text.hover,
+      },
     },
-    "& svg": {
+    '& svg': {
       fill: 'white',
-      marginRight: '10px'
-    }
+      marginRight: '10px',
+    },
   },
-}));
+  disabled: {
+    pointerEvents: 'none',
+  }
+}))
 
 const CustomLink = ({ title, buttonClassName, ...rest }) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  return (<Link className={classNames(classes.buttonLeaf, buttonClassName)} {...rest}>
-    {rest.icon ? <rest.icon /> : null}
-    <Typography {...rest.text}>{title}</Typography>
-  </Link>);
+  return (
+    <Link className={classNames(classes.buttonLeaf, { [classes.disabled]: rest.disabled }, buttonClassName)} {...rest}>
+      {rest.icon ? <rest.icon /> : null}
+      <Typography {...rest.text}>{title}</Typography>
+    </Link>
+  )
 }
 
-export default CustomLink;
+export default CustomLink

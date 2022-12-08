@@ -124,6 +124,11 @@ export const routes = [
         component: lazy(() => import('views/Main/Search'))
       },
       {
+        path: '/book-ticket/:id',
+        exact: true,
+        component: lazy(() => import('views/Main/BookTicket'))
+      },
+      {
         component: () => <Redirect to="/errors/404" />
       }
     ]
