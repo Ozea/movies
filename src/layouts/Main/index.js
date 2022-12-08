@@ -26,7 +26,8 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    paddingBottom: '70px'
+    paddingBottom: '70px',
+    minHeight: '100vh',
   },
   scrollTop: {
     position: 'fixed',

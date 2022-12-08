@@ -6,12 +6,13 @@ import CustomButton from 'components/CustomButton';
 import dayjs from 'dayjs';
 import { useHistory } from 'react-router';
 import { formatMovieUrl } from 'utils/movies';
-import { ArrowBack, Bookmark, Favorite, Movie } from '@mui/icons-material';
+import { ArrowBack, Bookmark, Favorite, Movie, ConfirmationNumber } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import { movieDescriptionStyles } from 'assets/jss/movieDescriptionStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import {  } from 'reduxToolkit/slices/movies';
 import { setWatchLaterMovie, removeWatchLaterMovie, setFavoriteMovie, removeFavoriteMovie } from 'reduxToolkit/slices/movies';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   ...movieDescriptionStyles(theme)
@@ -84,6 +85,13 @@ export default function MovieDescription({ movie, openTrailer }) {
             <IconButton sx={{ ml: 1.5 }} color={isWatchLater ? "warning" : "primary"} onClick={watchLaterHandler}>
               <Bookmark />
             </IconButton>
+          </Tooltip>
+          <Tooltip title="Book a ticket" placement="top">
+            <Link to={`/book-ticket/${movie.id}`}>
+              <IconButton sx={{ ml: 1.5 }} color="primary">
+                <ConfirmationNumber />
+              </IconButton>
+            </Link>
           </Tooltip>
         </Typography>
         <Typography variant="caption" color="secondary.dark" className={classes.genres}>
