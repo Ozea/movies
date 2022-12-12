@@ -11,6 +11,8 @@ import CustomButton from 'components/CustomButton'
 import { rowsAndTickets } from 'utils/rowsAndTickets'
 import classNames from 'classnames'
 import CustomLink from 'components/CustomLink'
+import { setBooking } from 'reduxToolkit/slices/booking'
+import { useDispatch } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   flexRow: {
@@ -134,6 +136,7 @@ export default function Dashboard() {
   const [selectedDate, setSelectedDate] = useState(7)
   const [selectedHour, setSelectedHour] = useState('10:00')
   const [selectedSeats, setSelectedSeats] = useState([])
+  const dispatch = useDispatch()
   const [subTotal, setSubTotal] = useState(0)
   const history = useHistory()
   const classes = useStyles()
@@ -225,6 +228,18 @@ export default function Dashboard() {
 
   const changeHourHandler = (hour) => () => {
     setSelectedHour(hour)
+  }
+
+  const checkout = () => {
+    dispatch(
+      setBooking({
+        seats: selectedSeats,
+        price: subTotal,
+        date: selectedDate,
+        time: selectedHour,
+        movieId: movie.id,
+      })
+    )
   }
 
   if (loading) {
@@ -351,7 +366,7 @@ export default function Dashboard() {
               <Typography variant="h3" color="textSecondary" mr={2}>
                 Sub total: {subTotal}$
               </Typography>
-              <CustomLink title="Checkout" icon={Payments} to={`/checkout/${movie.id}`} disabled={subTotal === 0} />
+              <CustomLink title="Checkout" icon={Payments} to={`/checkout/${movie.id}`} onClick={checkout} disabled={subTotal === 0} />
             </GridContainer>
           </Box>
         </Box>

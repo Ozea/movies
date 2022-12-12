@@ -129,6 +129,11 @@ export const routes = [
         component: lazy(() => import('views/Main/BookTicket'))
       },
       {
+        path: '/checkout/:id',
+        exact: true,
+        component: lazy(() => import('views/Main/Checkout'))
+      },
+      {
         component: () => <Redirect to="/errors/404" />
       }
     ]
