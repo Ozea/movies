@@ -1,0 +1,1 @@
+{"version":3,"sources":["views/Auth/ForgotPassword.js"],"names":["ForgotPassword"],"mappings":"mGAAA,+DAEe,SAASA,IACtB,OACE","file":"static/js/26.ab17a0b4.chunk.js","sourcesContent":["import React from \"react\";\n\nexport default function ForgotPassword() {\n  return (\n    <div>Forgot password!</div>\n  );\n}\n"],"sourceRoot":""}

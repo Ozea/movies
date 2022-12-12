@@ -1,2 +1,0 @@
-(this.webpackJsonpmovies=this.webpackJsonpmovies||[]).push([[25],{520:function(s,t,n){"use strict";n.r(t),n.d(t,"default",(function(){return i}));n(0);var e=n(2);function i(){return Object(e.jsx)("div",{children:"Forgot password!"})}}}]);
-//# sourceMappingURL=25.ea1726c8.chunk.js.map
