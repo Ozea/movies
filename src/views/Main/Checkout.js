@@ -144,8 +144,6 @@ export default function Checkout() {
     { name: 'paypal', src: `${process.env.PUBLIC_URL}/assets/paypal.svg` },
   ]
 
-  console.log(booking)
-
   useEffect(() => {
     getMovieDetails(id)
       .then((res) => setMovie(res.data))
@@ -205,15 +203,15 @@ export default function Checkout() {
         </Box>
 
         <Box className={classes.details} borderRadius={1.5}>
-          <img src={formatMovieUrl(movie.backdrop_path)} alt="Poster" />
+          <img src={formatMovieUrl(movie.poster_path)} alt="Poster" />
           <Box className={classes.checkoutDetails} display="flex" justifyContent="flex-end" flexDirection="column" p={3}>
             <Box display="flex" justifyContent="space-between">
               <Typography variant="h4" color="textSecondary">
                 SCREEN 4
               </Typography>
               <Box textAlign="right">
-                <Typography variant="h5">December, 7</Typography>
-                <Typography variant="h5">10:00 AM</Typography>
+                <Typography variant="h5">December, {booking.date}</Typography>
+                <Typography variant="h5">{booking.time}</Typography>
               </Box>
             </Box>
             <Box>

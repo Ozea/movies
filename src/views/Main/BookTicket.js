@@ -344,7 +344,7 @@ export default function Dashboard() {
 
         <Box className={classes.rightPanel} pl={7} pr={3}>
           <Box className={classes.img}>
-            <img src={formatMovieUrl(movie.backdrop_path)} alt="Movie backdrop" />
+            <img src={formatMovieUrl(movie.poster_path)} alt="Movie backdrop" />
           </Box>
           <Box px={1} py={2}>
             <Typography variant="h5" color="textSecondary">
